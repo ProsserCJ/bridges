@@ -1,8 +1,13 @@
 package com.gccpod1.bentleybridges;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -15,14 +20,28 @@ import android.widget.TextView;
 public class DashboardActivity extends Activity {
 	
 	int numTestWidgets = 0;
+	
+	private DatabaseHelper DBHelper;
+	  
+  //Data for each chart
+  private ArrayList<ArrayList<String>> 	bridgeStatus, 
+  										nbi58DeckConditionRatings, 
+  										postedBridges, 
+  										structurallyDeficientDeckArea, 
+  										structurallyDeficientNHSDeckArea,	
+  										bridgeSufficiencyRatingDeckArea, 	
+  										bridgeCondition,
+  										nhsBridgeCondition, 				
+  										deckAreaBridgeCondition, 			
+  										deckAreaNHSBridgeCondition;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dashboard);
 		// Show the Up button in the action bar.
-		setupActionBar();
-		
+		setupActionBar();		 
+		dbInit();		
 
 	    //final ActionBar actionBar = getActionBar();
 	    
@@ -66,6 +85,42 @@ public class DashboardActivity extends Activity {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
+	
+	private void dbInit()
+	{
+		DBHelper = new DatabaseHelper(this);
+	    
+	    //Load data from database
+	    bridgeStatus = getDataFromCursor(DBHelper.getBridgeStatus());     
+		nbi58DeckConditionRatings = getDataFromCursor(DBHelper.getNBI58DeckConditionRatings());		
+		postedBridges = getDataFromCursor(DBHelper.getPostedBridges()); 					
+		structurallyDeficientDeckArea = getDataFromCursor(DBHelper.getStructurallyDeficientDeckArea());	
+		structurallyDeficientNHSDeckArea = getDataFromCursor(DBHelper.getStructurallyDeficientNHSDeckArea());	
+		bridgeSufficiencyRatingDeckArea = getDataFromCursor(DBHelper.getBridgeSufficiencyRatingDeckArea()); 	
+		bridgeCondition = getDataFromCursor(DBHelper.getBridgeCondition());
+		nhsBridgeCondition = getDataFromCursor(DBHelper.getNHSBridgeCondition()); 				
+		deckAreaBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaBridgeCondition()); 			
+		deckAreaNHSBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaNHSBridgeCondition());		
+	}
+	
+	public ArrayList<ArrayList<String>> getDataFromCursor(Cursor c){
+		  ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+		  
+		  //add column headings
+		  data.add(new ArrayList<String>(Arrays.asList(c.getColumnNames())));
+		  
+		  c.moveToFirst();
+		  for (int i=0; i<c.getCount(); i++){
+			  ArrayList<String> current = new ArrayList<String>();	
+			  for (int j=0; j<c.getColumnCount(); j++){
+				  try{current.add(c.getString(j));}
+				  catch(Exception e){current.add("");}			
+			  }
+			 data.add(current);
+			 c.moveToNext();
+		  }
+		  return data;
+	  }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,7 +165,7 @@ public class DashboardActivity extends Activity {
 		
 		TextView tv = new TextView(this);
 		tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		tv.setText("Hey this is a test!" + numTestWidgets);
+		//tv.setText("Hey this is a test!" + numTestWidgets);
 		layout.addView(tv);
 		
 	}
