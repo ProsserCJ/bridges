@@ -30,7 +30,8 @@ public class MainActivity extends Activity {
 	    final ListView listview = (ListView) findViewById(R.id.listview);
 	    String[] values = new String[] { 
 	    	getString(R.string.mainmenu1),
-	    	getString(R.string.mainmenu2)
+	    	getString(R.string.mainmenu2),
+	    	getString(R.string.mainmenu3)
 	    	};
 	    
 	    final ArrayList<String> list = new ArrayList<String>();
@@ -64,6 +65,8 @@ public class MainActivity extends Activity {
 		        case 0: startActivity(new Intent(MainActivity.this, HelloWorldActivity.class)); break; // go to that activity
 	
 		        case 1: startActivity(new Intent(MainActivity.this, LoginActivity.class)); break;
+
+		        case 2: startActivity(new Intent(MainActivity.this, DashboardActivity.class)); break;
 	
 		        default: break;
 		        }
