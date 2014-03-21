@@ -179,8 +179,6 @@ public class DashboardActivity extends Activity {
 		
 		ll.addView(tv);
 		layout.addView(ll);
-		tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		layout.addView(tv);
 		
 	}
 
