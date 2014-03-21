@@ -3,6 +3,7 @@ package com.gccpod1.bentleybridges;
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DashboardActivity extends Activity {
@@ -100,6 +102,7 @@ public class DashboardActivity extends Activity {
 		ViewGroup layout;
 		
 		numTestWidgets++;
+		
 		switch(numTestWidgets % 3)
 		{
 		case 1: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
@@ -108,10 +111,19 @@ public class DashboardActivity extends Activity {
 		default: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
 		}
 		
+		LinearLayout ll = new LinearLayout(this);
+		ll.setBackgroundColor(Color.rgb(250,250,250));
+		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		llParams.setMargins(10, 10, 10, 10); // left top right bottom
+		ll.setLayoutParams(llParams);
+		ll.setBackgroundResource(R.drawable.widgetbackground);
+		
 		TextView tv = new TextView(this);
-		tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		tv.setText("Hey this is a test!" + numTestWidgets);
-		layout.addView(tv);
+		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		tv.setText("Hey this is a test!\nT E S T W I D G E T \n\n\nhi " + numTestWidgets);
+		
+		ll.addView(tv);
+		layout.addView(ll);
 		
 	}
 
