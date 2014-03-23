@@ -169,13 +169,13 @@ public class DashboardActivity extends Activity {
 		LinearLayout ll = new LinearLayout(this);
 		ll.setBackgroundColor(Color.rgb(250,250,250));
 		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		llParams.setMargins(10, 10, 10, 10); // left top right bottom
+		llParams.setMargins(5, 10, 5, 10); // left top right bottom
 		ll.setLayoutParams(llParams);
 		ll.setBackgroundResource(R.drawable.widgetbackground);
 		
 		TextView tv = new TextView(this);
 		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		tv.setText("Hey this is a test!\nT E S T W I D G E T \n\n\nhi " + numTestWidgets);
+		tv.setText("Hey this is a test!\n\nT E S T W I D G E T \n\n" + numTestWidgets);
 		
 		ll.addView(tv);
 		layout.addView(ll);
