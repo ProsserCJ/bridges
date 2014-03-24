@@ -40,8 +40,8 @@ public class DashboardActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_dashboard);
-		// Show the Up button in the action bar.
+		setContentView(R.layout.activity_dashboard);		
+		// Show the Up button in the action bar.		
 		setupActionBar();		 
 		dbInit();		
 
@@ -102,7 +102,7 @@ public class DashboardActivity extends Activity {
 		bridgeCondition = getDataFromCursor(DBHelper.getBridgeCondition());
 		nhsBridgeCondition = getDataFromCursor(DBHelper.getNHSBridgeCondition()); 				
 		deckAreaBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaBridgeCondition()); 			
-		deckAreaNHSBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaNHSBridgeCondition());		
+		deckAreaNHSBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaNHSBridgeCondition());
 	}
 	
 	public ArrayList<ArrayList<String>> getDataFromCursor(Cursor c){
@@ -171,11 +171,14 @@ public class DashboardActivity extends Activity {
 		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		llParams.setMargins(5, 10, 5, 10); // left top right bottom
 		ll.setLayoutParams(llParams);
-		ll.setBackgroundResource(R.drawable.widgetbackground);
+		//ll.setBackgroundResource(R.drawable.widgetbackground);
 		
 		TextView tv = new TextView(this);
 		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		tv.setText("Hey this is a test!\n\nT E S T W I D G E T \n\n" + numTestWidgets);
+		tv.setText("Hey this is a test!\n\nT E S T W I D G E T " + numTestWidgets + "\n\n");
+		for(ArrayList<String> list : deckAreaNHSBridgeCondition)
+			for(String s : list)
+				tv.setText(tv.getText() + s + '\n');
 		
 		ll.addView(tv);
 		layout.addView(ll);
