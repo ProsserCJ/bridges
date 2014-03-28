@@ -158,13 +158,15 @@ public class DashboardActivity extends Activity {
 		
 		numTestWidgets++;
 		
-		switch(numTestWidgets % 3)
-		{
-		case 1: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
-		case 2: layout = (ViewGroup) findViewById(R.id.dashboardCol2); break;
-		case 0: layout = (ViewGroup) findViewById(R.id.dashboardCol3); break;
-		default: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
-		}
+		layout = (ViewGroup) findViewById(R.id.Manager);
+//		
+//		switch(numTestWidgets % 3)
+//		{
+//		case 1: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
+//		case 2: layout = (ViewGroup) findViewById(R.id.dashboardCol2); break;
+//		case 0: layout = (ViewGroup) findViewById(R.id.dashboardCol3); break;
+//		default: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
+//		}
 		
 		LinearLayout ll = new LinearLayout(this);
 		ll.setBackgroundColor(Color.rgb(250,250,250));
