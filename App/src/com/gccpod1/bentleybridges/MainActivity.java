@@ -63,11 +63,11 @@ public class MainActivity extends Activity {
 	    	  
 		        switch(position) // Which item they clicked on in the list 
 		        {
-		        case 0: startActivity(new Intent(MainActivity.this, HelloWorldActivity.class)); break; // go to that activity
+		        //case 0: startActivity(new Intent(MainActivity.this, HelloWorldActivity.class)); break; // go to that activity
 	
-		        case 1: startActivity(new Intent(MainActivity.this, LoginActivity.class)); break;
+		        //case 1: startActivity(new Intent(MainActivity.this, LoginActivity.class)); break;
 
-		        case 2: startActivity(new Intent(MainActivity.this, DashboardActivity.class)); break;
+		        case 0: startActivity(new Intent(MainActivity.this, DashboardActivity.class)); break; 
 	
 		        default: break;
 		        }
