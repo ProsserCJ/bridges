@@ -7,6 +7,7 @@
     <string name="mainmenu1">Hello world activity</string>
     <string name="mainmenu2">Log in to our secure servers</string>
     <string name="title_activity_hello_world">HelloWorldActivity</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="logon_heckle">Heyyyyyyyyyyyyyy want to log in or no?</string>
     <string name="mainmenu3">Dashboard</string>
     <string name="title_activity_dashboard">DashboardActivity</string>

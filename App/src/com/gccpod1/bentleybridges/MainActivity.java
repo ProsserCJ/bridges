@@ -30,9 +30,9 @@ public class MainActivity extends Activity {
 		// Populate the ListView
 	    final ListView listview = (ListView) findViewById(R.id.listview);
 	    String[] values = new String[] { 
-	    	getString(R.string.mainmenu1),
-	    	getString(R.string.mainmenu2),
-	    	getString(R.string.mainmenu3)
+	    	//getString(R.string.mainmenu1),
+	    	//getString(R.string.mainmenu2),
+	    	//getString(R.string.mainmenu3)
 	    	};
 	    
 	    final ArrayList<String> list = new ArrayList<String>();
