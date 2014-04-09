@@ -4,10 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalActivity;
+import org.achartengine.GraphicalView;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.graphics.Color;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,35 +25,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DashboardActivity extends Activity {
-	
-	int numTestWidgets = 0;
-	
-	private DatabaseHelper DBHelper;
-	  
-  //Data for each chart
-  private ArrayList<ArrayList<String>> 	bridgeStatus, 
-  										nbi58DeckConditionRatings, 
-  										postedBridges, 
-  										structurallyDeficientDeckArea, 
-  										structurallyDeficientNHSDeckArea,	
-  										bridgeSufficiencyRatingDeckArea, 	
-  										bridgeCondition,
-  										nhsBridgeCondition, 				
-  										deckAreaBridgeCondition, 			
-  										deckAreaNHSBridgeCondition;
+		int numTestWidgets = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dashboard);		
 		// Show the Up button in the action bar.		
-		setupActionBar();		 
-		dbInit();		
+		setupActionBar();
+		
+		GridView gridView = (GridView) findViewById(R.id.gridview);
+		gridView.setAdapter(new GraphAdapter(this));
+		gridView.setOnItemClickListener(null);		
 
+			
+		
 	    //final ActionBar actionBar = getActionBar();
 	    
 	    // Specify that tabs should be displayed in the action bar.
@@ -74,9 +75,13 @@ public class DashboardActivity extends Activity {
 	                        .setText(R.string.dashboardtab2)
 	                        .setTabListener(tabListener)); */
 	    
-
-	    
 	}
+	
+	protected void onResume()
+	{
+		super.onResume();	
+	}
+	
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
@@ -86,43 +91,8 @@ public class DashboardActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-	}
-	
-	private void dbInit()
-	{
-		DBHelper = new DatabaseHelper(this);
-	    
-	    //Load data from database
-	    bridgeStatus = getDataFromCursor(DBHelper.getBridgeStatus());     
-		nbi58DeckConditionRatings = getDataFromCursor(DBHelper.getNBI58DeckConditionRatings());		
-		postedBridges = getDataFromCursor(DBHelper.getPostedBridges()); 					
-		structurallyDeficientDeckArea = getDataFromCursor(DBHelper.getStructurallyDeficientDeckArea());	
-		structurallyDeficientNHSDeckArea = getDataFromCursor(DBHelper.getStructurallyDeficientNHSDeckArea());	
-		bridgeSufficiencyRatingDeckArea = getDataFromCursor(DBHelper.getBridgeSufficiencyRatingDeckArea()); 	
-		bridgeCondition = getDataFromCursor(DBHelper.getBridgeCondition());
-		nhsBridgeCondition = getDataFromCursor(DBHelper.getNHSBridgeCondition()); 				
-		deckAreaBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaBridgeCondition()); 			
-		deckAreaNHSBridgeCondition = getDataFromCursor(DBHelper.getDeckAreaNHSBridgeCondition());
-	}
-	
-	public ArrayList<ArrayList<String>> getDataFromCursor(Cursor c){
-		  ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-		  
-		  //add column headings
-		  data.add(new ArrayList<String>(Arrays.asList(c.getColumnNames())));
-		  
-		  c.moveToFirst();
-		  for (int i=0; i<c.getCount(); i++){
-			  ArrayList<String> current = new ArrayList<String>();	
-			  for (int j=0; j<c.getColumnCount(); j++){
-				  try{current.add(c.getString(j));}
-				  catch(Exception e){current.add("");}			
-			  }
-			 data.add(current);
-			 c.moveToNext();
-		  }
-		  return data;
-	  }
+	}	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,36 +124,31 @@ public class DashboardActivity extends Activity {
 	
 	public void addTestWidget(View view)
 	{
-		ViewGroup layout;
-		
-		numTestWidgets++;
-		
-		layout = (ViewGroup) findViewById(R.id.Manager);
-//		
-//		switch(numTestWidgets % 3)
-//		{
-//		case 1: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
-//		case 2: layout = (ViewGroup) findViewById(R.id.dashboardCol2); break;
-//		case 0: layout = (ViewGroup) findViewById(R.id.dashboardCol3); break;
-//		default: layout = (ViewGroup) findViewById(R.id.dashboardCol1); break;
-//		}
-		
+		ViewGroup layout = (ViewGroup) findViewById(R.id.Manager);
+
 		LinearLayout ll = new LinearLayout(this);
 		ll.setBackgroundColor(Color.rgb(250,250,250));
 		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		llParams.setMargins(5, 10, 5, 10); // left top right bottom
 		ll.setLayoutParams(llParams);
-		//ll.setBackgroundResource(R.drawable.widgetbackground);
+		
 		
 		TextView tv = new TextView(this);
 		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		tv.setText("Hey this is a test!\n\nT E S T W I D G E T " + numTestWidgets + "\n\n");
-		for(ArrayList<String> list : deckAreaNHSBridgeCondition)
-			for(String s : list)
-				tv.setText(tv.getText() + s + '\n');
-		
+
 		ll.addView(tv);
-		layout.addView(ll);
+		layout.addView(ll);		
+	}
+	
+	public void addGraph(View graph)
+	{	
+
+
+/*		ViewGroup.LayoutParams llParams = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+	
+		graph.addView(graph, llParams);
+		layout.addView(view);*/
 		
 	}
 
