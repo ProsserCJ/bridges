@@ -31,7 +31,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DashboardActivity extends Activity {
-		int numTestWidgets = 0;
+
+	int numTestWidgets = 0;
+	
+	int numRows = 0;
+	int numTestWidgets = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,7 @@ public class DashboardActivity extends Activity {
 		
 		GridView gridView = (GridView) findViewById(R.id.gridview);
 		gridView.setAdapter(new GraphAdapter(this));
-		gridView.setOnItemClickListener(null);		
-
+		gridView.setOnItemClickListener(null);	
 			
 		
 	    //final ActionBar actionBar = getActionBar();
@@ -75,6 +78,19 @@ public class DashboardActivity extends Activity {
 	                        .setText(R.string.dashboardtab2)
 	                        .setTabListener(tabListener)); */
 	    
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();
+			addTestWidget();	    
+
 	}
 	
 	protected void onResume()
@@ -122,34 +138,50 @@ public class DashboardActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void addTestWidget(View view)
+	public void addTestWidget(/*View view */ /*this needs to be un-commented out when it's going to be called by a button*/)
 	{
+
 		ViewGroup layout = (ViewGroup) findViewById(R.id.Manager);
 
+
+		ViewGroup layout;
+		
+		numTestWidgets++;
+		
+		if (numTestWidgets % 3 == 1)
+		{
+			// create a new row 
+			numRows++;
+			LinearLayout newRow = new LinearLayout(this);
+			newRow.setBackgroundColor(Color.rgb(100,230,230)); // debug color
+			LinearLayout.LayoutParams newRowParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			newRow.setId(numRows);
+			newRow.setLayoutParams(newRowParams);
+			newRow.setOrientation(LinearLayout.HORIZONTAL);
+			ViewGroup dashboardLL = (ViewGroup) findViewById(R.id.Dashboard);
+			dashboardLL.addView(newRow);
+		}
+		
+		//layout = (ViewGroup) findViewById(R.id.Manager);
+
+		
 		LinearLayout ll = new LinearLayout(this);
 		ll.setBackgroundColor(Color.rgb(250,250,250));
-		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
 		llParams.setMargins(5, 10, 5, 10); // left top right bottom
 		ll.setLayoutParams(llParams);
+
 		
+
+		ll.setBackgroundResource(R.drawable.widgetbackground);
 		
 		TextView tv = new TextView(this);
 		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		tv.setText("Hey this is a test!\n\nT E S T W I D G E T " + numTestWidgets + "\n\n");
 
+
 		ll.addView(tv);
 		layout.addView(ll);		
-	}
-	
-	public void addGraph(View graph)
-	{	
-
-
-/*		ViewGroup.LayoutParams llParams = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-	
-		graph.addView(graph, llParams);
-		layout.addView(view);*/
-		
 	}
 
 }
