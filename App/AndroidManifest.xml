@@ -30,6 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.gccpod1.bentleybridges.MainActivity" />
         </activity>
+        <activity android:name="org.achartengine.GraphicalActivity" />
     </application>
 
 </manifest>
