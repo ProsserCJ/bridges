@@ -112,9 +112,10 @@ public class GraphFactory {
 			if (x > 7) col = Color.parseColor("#01DF01");
 			
 			renderer.setColor(col);
-			rendererSet.addSeriesRenderer(renderer);
-			rendererSet.addXTextLabel(x, Integer.toString((int)x));
+			rendererSet.addSeriesRenderer(renderer);			
 		}
+		
+		for (int i=0; i<10; i++) rendererSet.addXTextLabel(i, Integer.toString(i));
 		
 		rendererSet.setXAxisMin(-1);
 		rendererSet.setXAxisMax(10);
@@ -169,8 +170,9 @@ public class GraphFactory {
 			
 			renderer.setColor(col);
 			rendererSet.addSeriesRenderer(renderer);
-			rendererSet.addXTextLabel(x, Integer.toString((int)x));
 		}
+		
+		for (int i=0; i<10; i++) rendererSet.addXTextLabel(i, Integer.toString(i));
 		
 		rendererSet.setXAxisMin(-1);
 		rendererSet.setXAxisMax(10);
@@ -225,8 +227,9 @@ public class GraphFactory {
 			
 			renderer.setColor(col);
 			rendererSet.addSeriesRenderer(renderer);
-			rendererSet.addXTextLabel(x, Integer.toString((int)x));
 		}
+		
+		for (int i=0; i<10; i++) rendererSet.addXTextLabel(i, Integer.toString(i));
 		
 		rendererSet.setXAxisMin(-1);
 		rendererSet.setXAxisMax(10);
@@ -281,8 +284,9 @@ public class GraphFactory {
 			
 			renderer.setColor(col);
 			rendererSet.addSeriesRenderer(renderer);
-			rendererSet.addXTextLabel(x, Integer.toString((int)x));
 		}
+		
+		for (int i=0; i<10; i++) rendererSet.addXTextLabel(i, Integer.toString(i));
 		
 		rendererSet.setXAxisMin(-1);
 		rendererSet.setXAxisMax(10);
@@ -348,7 +352,7 @@ public class GraphFactory {
 		rendererSet.setYAxisMin(0);
 		rendererSet.setYAxisMax(max + 25);
 		rendererSet.setYLabels(10);				
-		rendererSet.addXTextLabel(0, "A: " + A);
+		rendererSet.addXTextLabel(1, "A: " + A);
 		//rendererSet.addYTextLabel(0, "A: " + A);
 		rendererSet.setXLabels(0);
 		
@@ -417,7 +421,8 @@ public class GraphFactory {
 		rendererSet.setLabelsColor(Color.BLACK);
 		
 		rendererSet.setShowLabels(true);
-		rendererSet.setShowLegend(false);
+		rendererSet.setShowLegend(true);
+		rendererSet.setLegendTextSize(15);
 
 		rendererSet.setPanEnabled(false);
 		rendererSet.setZoomEnabled(false);
