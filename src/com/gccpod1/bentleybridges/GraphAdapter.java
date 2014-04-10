@@ -16,6 +16,7 @@ import android.widget.GridView;
 public class GraphAdapter extends BaseAdapter {
     private Context context;
     private GraphFactory graphFactory;
+    private final int NUM_GRAPHS = 10;
     
     public GraphAdapter(Context c) {
         context = c;
@@ -24,32 +25,31 @@ public class GraphAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
     	GraphicalView graphView = null;
-        if (convertView == null) 
-        {         	
-        	switch(position)
-        	{
-        	case 0: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
-        	case 1: graphView = graphFactory.getView_nbi59SuperstructureConditionRatings(); break;
-        	case 2: graphView = graphFactory.getView_nbi60SubstructureConditionRatings(); break;
-        	case 3: graphView = graphFactory.getView_nbi62CulvertConditionRatings(); break;
-        	case 4: graphView = graphFactory.getView_postedBridges(); break;
-        	default: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
-        	}
+    	
+    	switch(position)
+    	{
+    	case 0: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
+    	case 1: graphView = graphFactory.getView_nbi59SuperstructureConditionRatings(); break;
+    	case 2: graphView = graphFactory.getView_nbi60SubstructureConditionRatings(); break;
+    	case 3: graphView = graphFactory.getView_nbi62CulvertConditionRatings(); break;
+    	case 4: graphView = graphFactory.getView_postedBridges(); break;
+    	case 5: graphView = graphFactory.getView_bridgeStatus(); break;
+    	case 6: graphView = graphFactory.getView_bridgeCondition(); break;
+    	case 7: graphView = graphFactory.getView_nhsBridgeCondition(); break;
+    	case 8: graphView = graphFactory.getView_deckAreaBridgeCondition(); break;
+    	case 9: graphView = graphFactory.getView_deckAreaNHSBridgeCondition(); break;
+    	default: graphView = graphFactory.getView_bridgeCondition(); break;
+    	}
 
-        	graphView.setLayoutParams(new GridView.LayoutParams(400, 350));
-        	graphView.setPadding(25,25,25,25);
-        } 
-        else 
-        {
-        	graphView = (GraphicalView) convertView;
-        }        
+    	graphView.setLayoutParams(new GridView.LayoutParams(400, 350));
+    	graphView.setPadding(25,25,25,25);          
 
         return graphView;
     }
 
 	@Override
 	public int getCount() {
-		return 5;
+		return NUM_GRAPHS;
 	}
 
 	@Override

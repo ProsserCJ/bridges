@@ -6,8 +6,10 @@ import java.util.Arrays;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
+import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
@@ -306,40 +308,45 @@ public class GraphFactory {
 
 	public GraphicalView getView_postedBridges()
 	{		
+		int A = 0;
 		double max = 0;
+		
 		//Configure dataset and renderer
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		XYMultipleSeriesRenderer rendererSet = new XYMultipleSeriesRenderer();		
 		for (int i=1; i<postedBridges.size(); i++)
-		{
-			double y;
+		{			
+			int y;
 			try{
-				y = Double.parseDouble(postedBridges.get(i).get(1));
+				y = Integer.parseInt(postedBridges.get(i).get(1));
 			}
 			catch(Exception e){continue;}
-			if (y > max) max = y;
 			
 			String title = postedBridges.get(i).get(0);
 			if (title == null) continue;
+			if (title.equals("A")){ A = y; continue; } 
+			
+			if (y > max) max = y;			
 			
 			XYSeries series = new XYSeries(title);
 			XYSeriesRenderer renderer = new XYSeriesRenderer();
 			
-			series.add(i,y);
+			series.add(i-1,y);
 			dataset.addSeries(series);	
 						
 			renderer.setColor(Color.parseColor("#6495ED"));			
 			rendererSet.addSeriesRenderer(renderer);
-			rendererSet.addXTextLabel(i,title);
+			rendererSet.addXTextLabel(i-1,title);
 		}
 		
 		rendererSet.setXAxisMin(1);
 		rendererSet.setXAxisMax(2 + dataset.getSeriesCount());
 		rendererSet.setYAxisMin(0);
-		rendererSet.setYAxisMax(max + 100);
-		rendererSet.setYLabels(10);
+		rendererSet.setYAxisMax(max + 25);
+		rendererSet.setYLabels(10);				
+		rendererSet.addXTextLabel(0, "A: " + A);
+		//rendererSet.addYTextLabel(0, "A: " + A);
 		rendererSet.setXLabels(0);
-		
 		
 		rendererSet.setBarSpacing(1);
 		rendererSet.setBarWidth(60);
@@ -350,15 +357,292 @@ public class GraphFactory {
 				
 		rendererSet.setMarginsColor(Color.argb(0x00, 0x01, 0x01, 0x01));
 		rendererSet.setXLabelsColor(Color.BLACK);
-		rendererSet.setYLabelsColor(0, Color.BLACK);
+		rendererSet.setYLabelsColor(0, Color.BLACK);		
 					
 		rendererSet.setPanEnabled(false);
 		rendererSet.setShowLegend(false);
-		rendererSet.setZoomEnabled(false);
+		rendererSet.setZoomEnabled(false);		
 		rendererSet.setShowGridX(true);		
 		
 		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
 	
+	public GraphicalView getView_bridgeStatus()
+	{		
+		//Configure dataset and renderer
+		CategorySeries dataset = new CategorySeries("Bridge Status");
+		DefaultRenderer rendererSet = new DefaultRenderer();	
+				
+		for (int i=1; i<postedBridges.size(); i++)
+		{
+			double y; int x;
+			try{
+				x = Integer.parseInt(bridgeStatus.get(i).get(0));
+				y = Double.parseDouble(bridgeStatus.get(i).get(1));
+			}
+			catch(Exception e){continue;}
+		
+			
+			String title = "";
+			XYSeriesRenderer renderer = new XYSeriesRenderer();
+			
+			if (x == 0)
+			{
+				title = "OK";
+				renderer.setColor(Color.parseColor("#01DF01"));
+			}
+			else if (x == 1)
+			{
+				title = "Structurally Deficient";
+				renderer.setColor(Color.parseColor("#DF013A"));
+			}
+			else if (x == 2)
+			{
+				title = "Functionally Obsolete";
+				renderer.setColor(Color.parseColor("#F7FE2E"));
+			}	
+			else continue;
 
+			dataset.add(title, y);								
+			rendererSet.addSeriesRenderer(renderer);
+		}		
+
+		
+		rendererSet.setChartTitle("Bridge Status");
+		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+		
+		rendererSet.setShowLabels(true);
+		rendererSet.setShowLegend(false);
+
+		rendererSet.setPanEnabled(false);
+		rendererSet.setZoomEnabled(false);
+	
+		
+		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+	}
+	
+	public GraphicalView getView_bridgeCondition()
+	{		
+		//Configure dataset and renderer
+		CategorySeries dataset = new CategorySeries("Bridge Condition");
+		DefaultRenderer rendererSet = new DefaultRenderer();	
+				
+		for (int i=1; i<bridgeCondition.size(); i++)
+		{
+			int y;
+			try{				
+				y = Integer.parseInt(bridgeCondition.get(i).get(1));
+			}
+			catch(Exception e){continue;}		
+			
+			String title = "";
+			XYSeriesRenderer renderer = new XYSeriesRenderer();
+			
+			String x = bridgeCondition.get(i).get(0);
+			if (x.equals("F"))
+			{
+				title = "Fair";
+				renderer.setColor(Color.parseColor("#F7FE2E"));
+			}
+			else if (x.equals("G"))
+			{
+				title = "Good";
+				renderer.setColor(Color.parseColor("#01DF01"));				
+			}
+			else if (x.equals("P"))
+			{
+				title = "Poor";
+				renderer.setColor(Color.parseColor("#DF013A"));
+			}	
+			else
+			{
+				title = "No Value";
+				renderer.setColor(Color.parseColor("#FFFFFF"));
+			}
+
+			dataset.add(title, y);								
+			rendererSet.addSeriesRenderer(renderer);
+		}		
+		
+		rendererSet.setChartTitle("Bridge Condition");
+		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+		
+		rendererSet.setShowLabels(true);
+		rendererSet.setShowLegend(false);
+
+		rendererSet.setPanEnabled(false);
+		rendererSet.setZoomEnabled(false);	
+		
+		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+	}
+	
+	public GraphicalView getView_nhsBridgeCondition()
+	{		
+		//Configure dataset and renderer
+		CategorySeries dataset = new CategorySeries("NHS Bridge Condition");
+		DefaultRenderer rendererSet = new DefaultRenderer();	
+				
+		for (int i=1; i<nhsBridgeCondition.size(); i++)
+		{
+			int y;
+			try{				
+				y = Integer.parseInt(nhsBridgeCondition.get(i).get(1));
+			}
+			catch(Exception e){continue;}		
+			
+			String title = "";
+			XYSeriesRenderer renderer = new XYSeriesRenderer();
+			
+			String x = nhsBridgeCondition.get(i).get(0);
+			if (x.equals("F"))
+			{
+				title = "Fair";
+				renderer.setColor(Color.parseColor("#F7FE2E"));
+			}
+			else if (x.equals("G"))
+			{
+				title = "Good";
+				renderer.setColor(Color.parseColor("#01DF01"));				
+			}
+			else if (x.equals("P"))
+			{
+				title = "Poor";
+				renderer.setColor(Color.parseColor("#DF013A"));
+			}	
+			else
+			{
+				title = "No Value";
+				renderer.setColor(Color.parseColor("#FFFFFF"));
+			}
+
+			dataset.add(title, y);								
+			rendererSet.addSeriesRenderer(renderer);
+		}		
+		
+		rendererSet.setChartTitle("NHS Bridge Condition");
+		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+		
+		rendererSet.setShowLabels(true);
+		rendererSet.setShowLegend(false);
+
+		rendererSet.setPanEnabled(false);
+		rendererSet.setZoomEnabled(false);	
+		
+		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+	}
+	
+	public GraphicalView getView_deckAreaBridgeCondition()
+	{		
+		//Configure dataset and renderer
+		CategorySeries dataset = new CategorySeries("Deck Area Bridge Condition");
+		DefaultRenderer rendererSet = new DefaultRenderer();	
+				
+		for (int i=1; i<deckAreaBridgeCondition.size(); i++)
+		{
+			double y;
+			try{				
+				y = Double.parseDouble(deckAreaBridgeCondition.get(i).get(1));
+			}
+			catch(Exception e){continue;}		
+			
+			String title = "";
+			XYSeriesRenderer renderer = new XYSeriesRenderer();
+			
+			String x = deckAreaBridgeCondition.get(i).get(0);
+			if (x.equals("F"))
+			{
+				title = "Fair";
+				renderer.setColor(Color.parseColor("#F7FE2E"));
+			}
+			else if (x.equals("G"))
+			{
+				title = "Good";
+				renderer.setColor(Color.parseColor("#01DF01"));				
+			}
+			else if (x.equals("P"))
+			{
+				title = "Poor";
+				renderer.setColor(Color.parseColor("#DF013A"));
+			}	
+			else
+			{
+				title = "No Value";
+				renderer.setColor(Color.parseColor("#FFFFFF"));
+			}
+
+			dataset.add(title, y);								
+			rendererSet.addSeriesRenderer(renderer);
+		}		
+		
+		rendererSet.setChartTitle("Deck Area Bridge Condition");
+		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+		
+		rendererSet.setShowLabels(true);
+		rendererSet.setShowLegend(false);
+
+		rendererSet.setPanEnabled(false);
+		rendererSet.setZoomEnabled(false);	
+		
+		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+	}
+	
+	public GraphicalView getView_deckAreaNHSBridgeCondition()
+	{		
+		//Configure dataset and renderer
+		CategorySeries dataset = new CategorySeries("Deck Area NHS Bridge Condition");
+		DefaultRenderer rendererSet = new DefaultRenderer();	
+				
+		for (int i=1; i<deckAreaNHSBridgeCondition.size(); i++)
+		{
+			double y;
+			try{				
+				y = Double.parseDouble(deckAreaNHSBridgeCondition.get(i).get(1));
+			}
+			catch(Exception e){continue;}		
+			
+			String title = "";
+			XYSeriesRenderer renderer = new XYSeriesRenderer();
+			
+			String x = deckAreaNHSBridgeCondition.get(i).get(0);
+			if (x.equals("F"))
+			{
+				title = "Fair";
+				renderer.setColor(Color.parseColor("#F7FE2E"));
+			}
+			else if (x.equals("G"))
+			{
+				title = "Good";
+				renderer.setColor(Color.parseColor("#01DF01"));				
+			}
+			else if (x.equals("P"))
+			{
+				title = "Poor";
+				renderer.setColor(Color.parseColor("#DF013A"));
+			}	
+			else
+			{
+				title = "No Value";
+				renderer.setColor(Color.parseColor("#FFFFFF"));
+			}
+
+			dataset.add(title, y);								
+			rendererSet.addSeriesRenderer(renderer);
+		}		
+		
+		rendererSet.setChartTitle("Deck Area NHS Bridge Condition");
+		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+		
+		rendererSet.setShowLabels(true);
+		rendererSet.setShowLegend(false);
+
+		rendererSet.setPanEnabled(false);
+		rendererSet.setZoomEnabled(false);	
+		
+		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+	}
 }
