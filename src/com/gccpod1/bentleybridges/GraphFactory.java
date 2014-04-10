@@ -1,6 +1,6 @@
 package com.gccpod1.bentleybridges;
 
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +8,6 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
-import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DialRenderer;
@@ -369,30 +368,79 @@ public class GraphFactory {
 	{
 		
 		DialRenderer rendererSet = new DialRenderer();	
-		CategorySeries dataset = new CategorySeries("hello");
+		CategorySeries dataset = new CategorySeries("DeficientDeckArea");
 	
 		double percent;
 		percent = Double.parseDouble(structurallyDeficientDeckArea.get(1).get(0));
 		dataset.add(percent);
-		percent = Math.round(percent * 100);
-		percent = percent/100;
-		rendererSet.setChartTitle("Structurally Deficient Deck Area "+ percent);
+		
+		double display_percent;
+		display_percent = Math.round(percent * 100);
+		display_percent = display_percent/100;
+		
+		
+		//Set Title
+		rendererSet.setChartTitle("Structurally Deficient Deck Area "+ display_percent +"%");
 		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+						
+		//Set Needle
+		SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+		r.setColor(Color.RED);
+		rendererSet.addSeriesRenderer(r);
+		//Dial Chart Format
+		rendererSet.setAngleMax(90);
+		rendererSet.setAngleMin(270);
+		rendererSet.setMinValue(0);
+		rendererSet.setMaxValue(30);
+		rendererSet.setMajorTicksSpacing(5);
+				
+		rendererSet.setPanEnabled(false);
+		rendererSet.setShowLegend(false);
+		rendererSet.setZoomEnabled(false);
+				
+				
+		return ChartFactory.getDialChartView(context, dataset, rendererSet);
 		
 		
+	}
+	
+	public GraphicalView getView_StructurallyDeficientNHSDeckArea()
+	{
 		
-	    
+		DialRenderer rendererSet = new DialRenderer();	
+		CategorySeries dataset = new CategorySeries("DeficientNHSDeckArea");
+	
+		double percent;
+		percent = Double.parseDouble(structurallyDeficientNHSDeckArea.get(1).get(0));
+		dataset.add(percent);
+		double display_percent;
+		display_percent = Math.round(percent * 100);
+		display_percent = display_percent/100;
+		
+		//Set Title
+		rendererSet.setChartTitle("Structurally Deficient NHS Deck Area "+ display_percent +"%");
+		rendererSet.setChartTitleTextSize(TITLE_SIZE);
+		rendererSet.setLabelsColor(Color.BLACK);
+				
+		
+	    //Set Needle
 	    SimpleSeriesRenderer r = new SimpleSeriesRenderer();
 	    r.setColor(Color.RED);
 	    rendererSet.addSeriesRenderer(r);
 		
+	    //Dial Chart Format
 	    rendererSet.setAngleMax(90);
 	    rendererSet.setAngleMin(270);
-	    rendererSet.setShowLegend(false);
-		
 	    rendererSet.setMinValue(0);
 		rendererSet.setMaxValue(30);
 		rendererSet.setMajorTicksSpacing(5);
+		
+		
+					
+		rendererSet.setPanEnabled(false);
+		rendererSet.setShowLegend(false);
+		rendererSet.setZoomEnabled(false);
 		
 		
 		return ChartFactory.getDialChartView(context, dataset, rendererSet);

@@ -34,7 +34,8 @@ public class GraphAdapter extends BaseAdapter {
         	case 3: graphView = graphFactory.getView_nbi62CulvertConditionRatings(); break;
         	case 4: graphView = graphFactory.getView_postedBridges(); break;
         	case 5: graphView = graphFactory.getView_StructurallyDeficientDeckArea(); break;
-          	default: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
+        	case 6: graphView = graphFactory.getView_StructurallyDeficientNHSDeckArea(); break;
+        	default: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
         	}
 
         	graphView.setLayoutParams(new GridView.LayoutParams(400, 350));
@@ -50,7 +51,7 @@ public class GraphAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return 5;
+		return 7;
 	}
 
 	@Override
