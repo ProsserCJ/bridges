@@ -16,7 +16,7 @@ import android.widget.GridView;
 public class GraphAdapter extends BaseAdapter {
     private Context context;
     private GraphFactory graphFactory;
-    private final int NUM_GRAPHS = 10;
+    private final int NUM_GRAPHS = 12;
     
     public GraphAdapter(Context c) {
         context = c;
@@ -38,8 +38,11 @@ public class GraphAdapter extends BaseAdapter {
     	case 7: graphView = graphFactory.getView_nhsBridgeCondition(); break;
     	case 8: graphView = graphFactory.getView_deckAreaBridgeCondition(); break;
     	case 9: graphView = graphFactory.getView_deckAreaNHSBridgeCondition(); break;
+        case 10: graphView = graphFactory.getView_StructurallyDeficientDeckArea(); break;
+        case 11: graphView = graphFactory.getView_StructurallyDeficientNHSDeckArea(); break;
     	default: graphView = graphFactory.getView_bridgeCondition(); break;
     	}
+        
 
     	graphView.setLayoutParams(new GridView.LayoutParams(400, 350));
     	graphView.setPadding(25,25,25,25);          
@@ -62,7 +65,7 @@ public class GraphAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
-	}	
+	}
  
 
 }
