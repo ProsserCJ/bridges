@@ -33,7 +33,8 @@ public class GraphAdapter extends BaseAdapter {
         	case 2: graphView = graphFactory.getView_nbi60SubstructureConditionRatings(); break;
         	case 3: graphView = graphFactory.getView_nbi62CulvertConditionRatings(); break;
         	case 4: graphView = graphFactory.getView_postedBridges(); break;
-        	default: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
+        	case 5: graphView = graphFactory.getView_StructurallyDeficientDeckArea(); break;
+          	default: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
         	}
 
         	graphView.setLayoutParams(new GridView.LayoutParams(400, 350));
