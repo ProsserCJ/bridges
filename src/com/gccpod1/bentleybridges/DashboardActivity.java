@@ -28,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 public class DashboardActivity extends Activity {
@@ -44,7 +46,19 @@ public class DashboardActivity extends Activity {
 		gridView.setAdapter(new GraphAdapter(this));
 		gridView.setOnItemClickListener(null);
 		gridView.setVerticalSpacing(25);
-			
+		
+		TabHost th = (TabHost) findViewById(R.id.tabhost);
+		th.setup();
+		TabSpec spec = th.newTabSpec("arbitraryTag1");
+		spec.setContent(R.id.Dashboard);
+		spec.setIndicator("Dashboard");
+		th.addTab(spec);
+		
+		spec = th.newTabSpec("arbitraryTag2");
+		spec.setContent(R.id.Manager);
+		spec.setIndicator("Manager");
+		th.addTab(spec);
+							
 		
 	    //final ActionBar actionBar = getActionBar();
 	    
