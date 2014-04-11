@@ -40,7 +40,7 @@ public class DashboardActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dashboard);		
 		// Show the Up button in the action bar.		
-		setupActionBar();
+		//setupActionBar();
 		
 		GridView gridView = (GridView) findViewById(R.id.gridview);
 		gridView.setAdapter(new GraphAdapter(this));
