@@ -16,7 +16,7 @@ import android.widget.GridView;
 public class GraphAdapter extends BaseAdapter {
     private Context context;
     private GraphFactory graphFactory;
-    private final int NUM_GRAPHS = 12;
+    private final int NUM_GRAPHS = 13;
     
     public GraphAdapter(Context c) {
         context = c;
@@ -40,6 +40,7 @@ public class GraphAdapter extends BaseAdapter {
     	case 9: graphView = graphFactory.getView_deckAreaNHSBridgeCondition(); break;
         case 10: graphView = graphFactory.getView_StructurallyDeficientDeckArea(); break;
         case 11: graphView = graphFactory.getView_StructurallyDeficientNHSDeckArea(); break;
+        case 12: graphView = graphFactory.getView_bridgeSufficiencyRatingDeckArea(); break;
     	default: graphView = graphFactory.getView_bridgeCondition(); break;
     	}
         
