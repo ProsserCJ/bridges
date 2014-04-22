@@ -10,7 +10,6 @@ import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
-
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.DialRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -18,9 +17,14 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+
 
 public class GraphFactory {
 	public final int TITLE_SIZE = 18;
@@ -44,7 +48,7 @@ public class GraphFactory {
 	
 	public GraphFactory(Context c){
 		context = c;
-        dbInit();
+        dbInit();         
     }
     
     private void dbInit()
@@ -141,7 +145,8 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-		rendererSet.setShowGridX(true);		
+		rendererSet.setShowGridX(true);	
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -201,7 +206,8 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-		rendererSet.setShowGridX(true);		
+		rendererSet.setShowGridX(true);
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -261,7 +267,8 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-		rendererSet.setShowGridX(true);		
+		rendererSet.setShowGridX(true);	
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -321,7 +328,8 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-		rendererSet.setShowGridX(true);		
+		rendererSet.setShowGridX(true);	
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -382,7 +390,8 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-		rendererSet.setShowGridX(true);		
+		rendererSet.setShowGridX(true);	
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}	
@@ -440,6 +449,7 @@ public class GraphFactory {
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
 		rendererSet.setDisplayValues(true);
+		rendererSet.setExternalZoomEnabled(false);
 	
 		
 		return ChartFactory.getPieChartView(context, dataset, rendererSet);
@@ -496,9 +506,10 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 
 		rendererSet.setPanEnabled(false);
-		rendererSet.setZoomEnabled(false);
+		rendererSet.setZoomEnabled(false);		
 		rendererSet.setClickEnabled(true);
 		rendererSet.setDisplayValues(true);
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -557,6 +568,7 @@ public class GraphFactory {
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
 		rendererSet.setDisplayValues(true);
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -614,6 +626,7 @@ public class GraphFactory {
 		rendererSet.setPanEnabled(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
+		rendererSet.setExternalZoomEnabled(false);
 
 		
 		return ChartFactory.getPieChartView(context, dataset, rendererSet);
@@ -672,6 +685,7 @@ public class GraphFactory {
 		rendererSet.setPanEnabled(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -771,6 +785,7 @@ public class GraphFactory {
 		rendererSet.setPanEnabled(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -810,7 +825,7 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-				
+		rendererSet.setExternalZoomEnabled(false);				
 				
 		return ChartFactory.getDialChartView(context, dataset, rendererSet);
 		
@@ -850,9 +865,24 @@ public class GraphFactory {
 		rendererSet.setPanEnabled(false);
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
-		rendererSet.setClickEnabled(true);		
+		rendererSet.setClickEnabled(true);
+		rendererSet.setExternalZoomEnabled(false);
 		
 		return ChartFactory.getDialChartView(context, dataset, rendererSet);
+	}
+
+	public ArrayAdapter<String> getAdapter_bridgeStatus()
+	{
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, new String[]{});		
+		
+		for (ArrayList<String> list : bridgeStatus)
+		{
+			adapter.addAll(list);
+
+		}
+
+		return adapter;
+		
 	}
 }
 

@@ -1,59 +1,81 @@
 package com.gccpod1.bentleybridges;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-
+import java.util.Scanner;
 import org.achartengine.GraphicalView;
-
 import android.content.Context;
-import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 public class GraphAdapter extends BaseAdapter {
     private Context context;
     private GraphFactory graphFactory;
-    private final int NUM_GRAPHS = 13;
+    private int numGraphs = 0;
+    private int width, height;
+    Scanner input;
+    ArrayList<GraphicalView> graphs;
     
     public GraphAdapter(Context c) {
         context = c;
-        graphFactory = new GraphFactory(context);
+        graphFactory = new GraphFactory(context); 
+        graphs = new ArrayList<GraphicalView>();
+        refresh();
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-    	GraphicalView graphView = null;
+    public View getView(int position, View convertView, ViewGroup parent) {    	
+    	GraphicalView graphView = graphs.get(position);      	 
     	
-    	switch(position)
-    	{
-    	case 0: graphView = graphFactory.getView_nbi58DeckConditionRatings(); break;
-    	case 1: graphView = graphFactory.getView_nbi59SuperstructureConditionRatings(); break;
-    	case 2: graphView = graphFactory.getView_nbi60SubstructureConditionRatings(); break;
-    	case 3: graphView = graphFactory.getView_nbi62CulvertConditionRatings(); break;
-    	case 4: graphView = graphFactory.getView_postedBridges(); break;
-    	case 5: graphView = graphFactory.getView_bridgeStatus(); break;
-    	case 6: graphView = graphFactory.getView_bridgeCondition(); break;
-    	case 7: graphView = graphFactory.getView_nhsBridgeCondition(); break;
-    	case 8: graphView = graphFactory.getView_deckAreaBridgeCondition(); break;
-    	case 9: graphView = graphFactory.getView_deckAreaNHSBridgeCondition(); break;
-        case 10: graphView = graphFactory.getView_StructurallyDeficientDeckArea(); break;
-        case 11: graphView = graphFactory.getView_StructurallyDeficientNHSDeckArea(); break;
-        case 12: graphView = graphFactory.getView_bridgeSufficiencyRatingDeckArea(); break;
-    	default: graphView = graphFactory.getView_bridgeCondition(); break;
-    	}
-        
-
-    	graphView.setLayoutParams(new GridView.LayoutParams(400, 350));
-    	graphView.setPadding(25,25,25,25);          
+    	graphView.setLayoutParams(new GridView.LayoutParams(width, height));
+    	graphView.setPadding(25,25,25,25);
 
         return graphView;
+    }
+    
+    private GraphicalView parse(String input){
+    
+       	if (input.equalsIgnoreCase("Deck Condition Ratings")) 				return graphFactory.getView_nbi58DeckConditionRatings();
+       	if (input.equalsIgnoreCase("Superstructure Condition Ratings"))	 	return graphFactory.getView_nbi59SuperstructureConditionRatings();    
+       	if (input.equalsIgnoreCase("Substructure Condition Ratings")) 		return graphFactory.getView_nbi60SubstructureConditionRatings();
+       	if (input.equalsIgnoreCase("Culvert Condition Ratings"))			return graphFactory.getView_nbi62CulvertConditionRatings();
+    	if (input.equalsIgnoreCase("Posted Bridges")) 						return graphFactory.getView_postedBridges();
+    	if (input.equalsIgnoreCase("Bridge Status")) 						return graphFactory.getView_bridgeStatus(); 
+    	if (input.equalsIgnoreCase("Bridge Condition")) 					return graphFactory.getView_bridgeCondition(); 
+    	if (input.equalsIgnoreCase("NHS Bridge Condition"))					return graphFactory.getView_nhsBridgeCondition();
+    	if (input.equalsIgnoreCase("Deck Area Bridge Condition"))			return graphFactory.getView_deckAreaBridgeCondition();
+    	if (input.equalsIgnoreCase("Deck Area NHS Bridge Condition")) 		return graphFactory.getView_deckAreaNHSBridgeCondition();
+    	if (input.equalsIgnoreCase("Structurally Deficient Deck Area"))		return graphFactory.getView_StructurallyDeficientDeckArea();
+    	if (input.equalsIgnoreCase("Structurally Deficient NHS Deck Area"))	return graphFactory.getView_StructurallyDeficientNHSDeckArea();
+    	if (input.equalsIgnoreCase("Bridge Sufficiency Rating Deck Area"))	return graphFactory.getView_bridgeSufficiencyRatingDeckArea();
+    	
+    	return null;
+    }
+    
+    public void refresh()
+    {
+    	graphs.clear();
+    	
+        try {
+        	input = new Scanner(context.getAssets().open("graph_order.txt"));
+		} catch (IOException e) {			
+			e.printStackTrace();
+			input = null;
+		}         
+
+        width = input.nextInt();
+        height = input.nextInt();
+        input.nextLine(); input.nextLine();        
+
+    	for (numGraphs = 0; input.hasNextLine(); numGraphs++){
+    		graphs.add(parse(input.nextLine()));    	
+    	}
     }
 
 	@Override
 	public int getCount() {
-		return NUM_GRAPHS;
+		return numGraphs;
 	}
 
 	@Override
@@ -67,6 +89,6 @@ public class GraphAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return 0;
 	}
- 
 
 }
+

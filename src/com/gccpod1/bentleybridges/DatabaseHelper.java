@@ -48,12 +48,35 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 	public Cursor getDeckAreaBridgeCondition() 				{return query(DECK_AREA_BRIDGE_CONDITION, null);}
 	public Cursor getDeckAreaNHSBridgeCondition() 			{return query(DECK_AREA_NHS_BRIDGE_CONDITION, null);}
 	
-	//Common SQL queries
+	public Cursor getBridgeStatusDrilldown(int category) 						{return query(BRIDGE_STATUS_DRILLDOWN, new String[] {Integer.toString(category)});}
+	public Cursor getNBI58DeckConditionRatingsDrilldown(int category) 			{return query(NBI_58_DECK_CONDITION_RATINGS_DRILLDOWN, new String[] {Integer.toString(category)});}
+	public Cursor getNBI59SuperstructureConditionRatingsDrilldown(int category) {return query(NBI_59_SUPERSTRUCTURE_CONDITION_RATINGS_DRILLDOWN, new String[] {Integer.toString(category)});}
+	public Cursor getNBI60SubstructureConditionRatingsDrilldown(int category) 	{return query(NBI_60_SUBSTRUCTURE_CONDITION_RATINGS_DRILLDOWN, new String[] {Integer.toString(category)});}
+	public Cursor getNBI62CulvertConditionRatingsDrilldown(int category)		{return query(NBI_62_CULVERT_CONDITION_RATINGS_DRILLDOWN, new String[] {Integer.toString(category)});}
+	public Cursor getPostedBridgesDrilldown(String category) 					{return query(POSTED_BRIDGES_DRILLDOWN, new String[] {category});}
+	public Cursor getStructurallyDeficientDeckAreaDrilldown()					{return query(STRUCTURALLY_DEFICIENT_DECK_AREA_DRILLDOWN, null);}
+	public Cursor getStructurallyDeficientNHSDeckAreaDrilldown()				{return query(STRUCTURALLY_DEFICIENT_NHS_DECK_AREA_DRILLDOWN, null);}
+	
+	public Cursor getBridgeSufficiencyRatingDeckAreaDrilldown(int high) 	
+	{
+		int low = high - 9;		
+		return query(BRIDGE_SUFFICIENCY_RATING_DECK_AREA_DRILLDOWN, new String[] {Integer.toString(low), Integer.toString(high)});
+	}
+	
+	public Cursor getBridgeConditionDrilldown(String category) 					{return query(BRIDGE_CONDITION_DRILLDOWN, new String[] {category});}
+	public Cursor getNHSBridgeConditionDrilldown(String category) 				{return query(NHS_BRIDGE_CONDITION_DRILLDOWN, new String[] {category});}
+	public Cursor getDeckAreaBridgeConditionDrilldown(String category) 			{return query(DECK_AREA_BRIDGE_CONDITION_DRILLDOWN, new String[] {category});}
+	public Cursor getDeckAreaNHSBridgeConditionDrilldown(String category) 		{return query(DECK_AREA_NHS_BRIDGE_CONDITION_DRILLDOWN, new String[] {category});}
+	
+	/*********************
+	  Chart SQL queries
+	*********************/
+	
 	private final String BRIDGE_STATUS = 
 			"select nbi_status, COUNT(distinct as_id) as cnt_val "
 		+	"from tblCurrentNBIAggregated "
 		+	"group by nbi_status "
-		+	"order by nbi_status ";
+		+	"order by nbi_status ";	
 	
 	private final String NBI_58_DECK_CONDITION_RATINGS =
 			"select nbi_058, COUNT(distinct as_id) cnt_val "
@@ -134,6 +157,66 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 		+	"where tblCurrentNBIAggregated.nbi_062 not in (0,1,2,3,4,5,6,7,8,9) "
 		+	"and nbi_104 = 1 "
 		+	"group by nbi_059_060";
-       
+	
+	
+	/*********************
+	  Drilldown SQL queries
+	*********************/
+	
+	//All drilldown queries begin with this,
+	//varying only in the final where clause
+	
+	private final String DRILLDOWN_BASE =
+			"select aggregated.as_id,"
+		+	"aggregated.nbi_058 deck, "
+		+	"aggregated.nbi_059 super, "
+		+	"aggregated.nbi_060 sub, "
+		+	"aggregated.nbi_062 culvert, "
+		+	"aggregated.nbi_041 posting_status, "
+		+	"aggregated.nbi_bsr sufficiency_rating, "
+		+	"aggregated.nbi_status "
+		+	"from ( "
+		+	"select * "
+		+	"from tblCurrentNBIAggregated ";
+	
+	
+	private final String BRIDGE_STATUS_DRILLDOWN = 
+		DRILLDOWN_BASE + "where nbi_status = ? ) as aggregated";	
+	
+	private final String NBI_58_DECK_CONDITION_RATINGS_DRILLDOWN =
+		DRILLDOWN_BASE + "where nbi_058 = ?) as aggregated ";
+	
+	private final String NBI_59_SUPERSTRUCTURE_CONDITION_RATINGS_DRILLDOWN =
+		DRILLDOWN_BASE + "where nbi_059 = ?) as aggregated ";
+	
+	private final String NBI_60_SUBSTRUCTURE_CONDITION_RATINGS_DRILLDOWN =
+		DRILLDOWN_BASE + "where nbi_060 = ?) as aggregated ";
+	
+	private final String NBI_62_CULVERT_CONDITION_RATINGS_DRILLDOWN =
+		DRILLDOWN_BASE + "where nbi_062 = ?) as aggregated ";
+	
+	private final String POSTED_BRIDGES_DRILLDOWN = 
+		DRILLDOWN_BASE + "where upper( nbi_041) = upper('?') ) as aggregated";	
+	
+	private final String STRUCTURALLY_DEFICIENT_DECK_AREA_DRILLDOWN =
+		DRILLDOWN_BASE + "where nbi_status = 1 ) as aggregated";		
+	
+	private final String STRUCTURALLY_DEFICIENT_NHS_DECK_AREA_DRILLDOWN = 
+		DRILLDOWN_BASE + "where nbi_status = 1 and nbi_104 = 1 ) as aggregated";
+	
+	private final String BRIDGE_SUFFICIENCY_RATING_DECK_AREA_DRILLDOWN = 
+		DRILLDOWN_BASE + "where and nbi_bsr >= ? and nbi_bsr <= ? ) as aggregated";	
+	
+	private final String BRIDGE_CONDITION_DRILLDOWN =
+		DRILLDOWN_BASE + "where upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";	
+			
+	private final String NHS_BRIDGE_CONDITION_DRILLDOWN =
+		DRILLDOWN_BASE + "where nbi_104 = 1 and upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";
+	
+	private final String DECK_AREA_BRIDGE_CONDITION_DRILLDOWN =
+		DRILLDOWN_BASE + "where upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";
+	
+	private final String DECK_AREA_NHS_BRIDGE_CONDITION_DRILLDOWN = 
+		DRILLDOWN_BASE + "where nbi_104 = 1 and upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";       
  
 }

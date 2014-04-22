@@ -28,12 +28,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 public class DashboardActivity extends Activity {
 		int numTestWidgets = 0;
+		private GraphFactory gf;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +43,12 @@ public class DashboardActivity extends Activity {
 		setContentView(R.layout.activity_dashboard);		
 		// Show the Up button in the action bar.		
 		//setupActionBar();
+
 		
 		GridView gridView = (GridView) findViewById(R.id.gridview);
 		gridView.setAdapter(new GraphAdapter(this));
 		gridView.setOnItemClickListener(null);
-		gridView.setVerticalSpacing(25);
+		gridView.setVerticalSpacing(25);	
 		
 		TabHost th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
@@ -144,8 +147,7 @@ public class DashboardActivity extends Activity {
 		ll.setBackgroundColor(Color.rgb(250,250,250));
 		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		llParams.setMargins(5, 10, 5, 10); // left top right bottom
-		ll.setLayoutParams(llParams);
-		
+		ll.setLayoutParams(llParams);		
 		
 		TextView tv = new TextView(this);
 		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
