@@ -34,25 +34,6 @@ public class GraphAdapter extends BaseAdapter {
         return graphView;
     }
     
-    private GraphicalView parse(String input){
-    
-       	if (input.equalsIgnoreCase("Deck Condition Ratings")) 				return graphFactory.getView_nbi58DeckConditionRatings();
-       	if (input.equalsIgnoreCase("Superstructure Condition Ratings"))	 	return graphFactory.getView_nbi59SuperstructureConditionRatings();    
-       	if (input.equalsIgnoreCase("Substructure Condition Ratings")) 		return graphFactory.getView_nbi60SubstructureConditionRatings();
-       	if (input.equalsIgnoreCase("Culvert Condition Ratings"))			return graphFactory.getView_nbi62CulvertConditionRatings();
-    	if (input.equalsIgnoreCase("Posted Bridges")) 						return graphFactory.getView_postedBridges();
-    	if (input.equalsIgnoreCase("Bridge Status")) 						return graphFactory.getView_bridgeStatus(); 
-    	if (input.equalsIgnoreCase("Bridge Condition")) 					return graphFactory.getView_bridgeCondition(); 
-    	if (input.equalsIgnoreCase("NHS Bridge Condition"))					return graphFactory.getView_nhsBridgeCondition();
-    	if (input.equalsIgnoreCase("Deck Area Bridge Condition"))			return graphFactory.getView_deckAreaBridgeCondition();
-    	if (input.equalsIgnoreCase("Deck Area NHS Bridge Condition")) 		return graphFactory.getView_deckAreaNHSBridgeCondition();
-    	if (input.equalsIgnoreCase("Structurally Deficient Deck Area"))		return graphFactory.getView_StructurallyDeficientDeckArea();
-    	if (input.equalsIgnoreCase("Structurally Deficient NHS Deck Area"))	return graphFactory.getView_StructurallyDeficientNHSDeckArea();
-    	if (input.equalsIgnoreCase("Bridge Sufficiency Rating Deck Area"))	return graphFactory.getView_bridgeSufficiencyRatingDeckArea();
-    	
-    	return null;
-    }
-    
     public void refresh()
     {
     	graphs.clear();
@@ -69,7 +50,7 @@ public class GraphAdapter extends BaseAdapter {
         input.nextLine(); input.nextLine();        
 
     	for (numGraphs = 0; input.hasNextLine(); numGraphs++){
-    		graphs.add(parse(input.nextLine()));    	
+    		graphs.add(graphFactory.parse(input.nextLine()));    	
     	}
     }
 

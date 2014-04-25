@@ -45,11 +45,45 @@ public class GraphFactory {
     										nhsBridgeCondition, 				
     										deckAreaBridgeCondition, 			
     										deckAreaNHSBridgeCondition;
+    
+
+    //static graphs
+    private static GraphicalView		 	bridgeStatusView, 
+    										nbi58DeckConditionRatingsView, 
+    										nbi59SuperstructureConditionRatingsView, 
+    										nbi60SubstructureConditionRatingsView,
+    										nbi62CulvertConditionRatingsView, 
+    										postedBridgesView, 
+    										structurallyDeficientDeckAreaView, 
+    										structurallyDeficientNHSDeckAreaView,	
+    										bridgeSufficiencyRatingDeckAreaView, 	
+    										bridgeConditionView,
+    										nhsBridgeConditionView, 				
+    										deckAreaBridgeConditionView, 			
+    										deckAreaNHSBridgeConditionView;
 	
 	public GraphFactory(Context c){
 		context = c;
-        dbInit();         
+        dbInit();        
+        graphInit();
     }
+	
+	private void graphInit()
+	{
+		calc_bridgeStatus();
+		calc_nbi58DeckConditionRatings();
+		calc_nbi59SuperstructureConditionRatings(); 
+		calc_nbi60SubstructureConditionRatings();
+		calc_nbi62CulvertConditionRatings(); 
+		calc_postedBridges(); 
+		calc_structurallyDeficientDeckArea(); 
+		calc_structurallyDeficientNHSDeckArea();	
+		calc_bridgeSufficiencyRatingDeckArea(); 	
+		calc_bridgeCondition();
+		calc_nhsBridgeCondition(); 				
+		calc_deckAreaBridgeCondition(); 			
+		calc_deckAreaNHSBridgeCondition();
+	}
     
     private void dbInit()
 	{
@@ -89,8 +123,27 @@ public class GraphFactory {
 		  }
 		  return data;
 	  }
-		
-	public GraphicalView getView_nbi58DeckConditionRatings()
+
+	public GraphicalView parse(String input){
+	    
+       	if (input.equalsIgnoreCase("Deck Condition Ratings")) 				return nbi58DeckConditionRatingsView;
+       	if (input.equalsIgnoreCase("Superstructure Condition Ratings"))	 	return nbi59SuperstructureConditionRatingsView;    
+       	if (input.equalsIgnoreCase("Substructure Condition Ratings")) 		return nbi60SubstructureConditionRatingsView;
+       	if (input.equalsIgnoreCase("Culvert Condition Ratings"))			return nbi62CulvertConditionRatingsView;
+    	if (input.equalsIgnoreCase("Posted Bridges")) 						return postedBridgesView;
+    	if (input.equalsIgnoreCase("Bridge Status")) 						return bridgeStatusView; 
+    	if (input.equalsIgnoreCase("Bridge Condition")) 					return bridgeConditionView; 
+    	if (input.equalsIgnoreCase("NHS Bridge Condition"))					return nhsBridgeConditionView;
+    	if (input.equalsIgnoreCase("Deck Area Bridge Condition"))			return deckAreaBridgeConditionView;
+    	if (input.equalsIgnoreCase("Deck Area NHS Bridge Condition")) 		return deckAreaNHSBridgeConditionView;
+    	if (input.equalsIgnoreCase("Structurally Deficient Deck Area"))		return structurallyDeficientDeckAreaView;
+    	if (input.equalsIgnoreCase("Structurally Deficient NHS Deck Area"))	return structurallyDeficientNHSDeckAreaView;
+    	if (input.equalsIgnoreCase("Bridge Sufficiency Rating Deck Area"))	return bridgeSufficiencyRatingDeckAreaView;
+    	
+    	return null;
+    }
+	
+	public void calc_nbi58DeckConditionRatings()
 	{			
 		//Configure dataset and renderer
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -148,10 +201,10 @@ public class GraphFactory {
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		nbi58DeckConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
 	
-	public GraphicalView getView_nbi59SuperstructureConditionRatings()
+	public void calc_nbi59SuperstructureConditionRatings()
 	{			
 		//Configure dataset and renderer
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -209,10 +262,10 @@ public class GraphFactory {
 		rendererSet.setShowGridX(true);
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		nbi59SuperstructureConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
 	
-	public GraphicalView getView_nbi60SubstructureConditionRatings()
+	public void calc_nbi60SubstructureConditionRatings()
 	{			
 		//Configure dataset and renderer
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -270,10 +323,10 @@ public class GraphFactory {
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		nbi60SubstructureConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
 	
-	public GraphicalView getView_nbi62CulvertConditionRatings()
+	public void calc_nbi62CulvertConditionRatings()
 	{			
 		//Configure dataset and renderer
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -331,10 +384,10 @@ public class GraphFactory {
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		nbi62CulvertConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
 
-	public GraphicalView getView_postedBridges()
+	public void calc_postedBridges()
 	{		
 		int A = 0;
 		double max = 0;
@@ -393,10 +446,10 @@ public class GraphFactory {
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		postedBridgesView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}	
 
-	public GraphicalView getView_bridgeStatus()
+	public void calc_bridgeStatus()
 	{		
 		//Configure dataset and renderer
 		CategorySeries dataset = new CategorySeries("Bridge Status");
@@ -452,10 +505,10 @@ public class GraphFactory {
 		rendererSet.setExternalZoomEnabled(false);
 	
 		
-		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+		bridgeStatusView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
 	
-	public GraphicalView getView_bridgeCondition()
+	public void calc_bridgeCondition()
 	{		
 		//Configure dataset and renderer
 		CategorySeries dataset = new CategorySeries("Bridge Condition");
@@ -511,10 +564,10 @@ public class GraphFactory {
 		rendererSet.setDisplayValues(true);
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+		bridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
 	
-	public GraphicalView getView_nhsBridgeCondition()
+	public void calc_nhsBridgeCondition()
 	{		
 		//Configure dataset and renderer
 		CategorySeries dataset = new CategorySeries("NHS Bridge Condition");
@@ -570,10 +623,10 @@ public class GraphFactory {
 		rendererSet.setDisplayValues(true);
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+		nhsBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
 	
-	public GraphicalView getView_deckAreaBridgeCondition()
+	public void calc_deckAreaBridgeCondition()
 	{		
 		//Configure dataset and renderer
 		CategorySeries dataset = new CategorySeries("Deck Area Bridge Condition");
@@ -629,10 +682,10 @@ public class GraphFactory {
 		rendererSet.setExternalZoomEnabled(false);
 
 		
-		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+		deckAreaBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
 	
-	public GraphicalView getView_deckAreaNHSBridgeCondition()
+	public void calc_deckAreaNHSBridgeCondition()
 	{		
 		//Configure dataset and renderer
 		CategorySeries dataset = new CategorySeries("Deck Area NHS Bridge Condition");
@@ -687,10 +740,10 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+		deckAreaNHSBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
 	
-	public GraphicalView getView_bridgeSufficiencyRatingDeckArea()
+	public void calc_bridgeSufficiencyRatingDeckArea()
 	{		
 		//Configure dataset and renderer
 		CategorySeries dataset = new CategorySeries("Bridge Sufficiency Rating Deck Area");
@@ -787,10 +840,10 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getPieChartView(context, dataset, rendererSet);
+		bridgeSufficiencyRatingDeckAreaView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
 
-	public GraphicalView getView_StructurallyDeficientDeckArea()
+	public void calc_structurallyDeficientDeckArea()
 	{
 		
 		DialRenderer rendererSet = new DialRenderer();	
@@ -827,11 +880,11 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);				
 				
-		return ChartFactory.getDialChartView(context, dataset, rendererSet);
+		structurallyDeficientDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
 		
 	}
 	
-	public GraphicalView getView_StructurallyDeficientNHSDeckArea()
+	public void calc_structurallyDeficientNHSDeckArea()
 	{
 		
 		DialRenderer rendererSet = new DialRenderer();	
@@ -868,22 +921,9 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
 		
-		return ChartFactory.getDialChartView(context, dataset, rendererSet);
+		structurallyDeficientNHSDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
 	}
 
-	public ArrayAdapter<String> getAdapter_bridgeStatus()
-	{
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, new String[]{});		
-		
-		for (ArrayList<String> list : bridgeStatus)
-		{
-			adapter.addAll(list);
-
-		}
-
-		return adapter;
-		
-	}
 }
 
 
