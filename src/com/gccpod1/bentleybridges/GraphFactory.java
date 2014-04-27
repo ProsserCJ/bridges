@@ -200,6 +200,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		nbi58DeckConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -261,6 +262,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setShowGridX(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		nbi59SuperstructureConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -322,6 +324,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		nbi60SubstructureConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -383,6 +386,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		nbi62CulvertConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}
@@ -445,6 +449,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setShowGridX(true);	
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		postedBridgesView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
 	}	
@@ -503,6 +508,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setDisplayValues(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 	
 		
 		bridgeStatusView = ChartFactory.getPieChartView(context, dataset, rendererSet);
@@ -563,6 +569,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setDisplayValues(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		bridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -622,6 +629,7 @@ public class GraphFactory {
 		rendererSet.setClickEnabled(true);
 		rendererSet.setDisplayValues(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		nhsBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -680,6 +688,7 @@ public class GraphFactory {
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 
 		
 		deckAreaBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
@@ -739,6 +748,7 @@ public class GraphFactory {
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		deckAreaNHSBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -839,6 +849,7 @@ public class GraphFactory {
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		bridgeSufficiencyRatingDeckAreaView = ChartFactory.getPieChartView(context, dataset, rendererSet);
 	}
@@ -878,7 +889,8 @@ public class GraphFactory {
 		rendererSet.setShowLegend(false);
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
-		rendererSet.setExternalZoomEnabled(false);				
+		rendererSet.setExternalZoomEnabled(false);		
+		rendererSet.setInScroll(true);
 				
 		structurallyDeficientDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
 		
@@ -920,6 +932,7 @@ public class GraphFactory {
 		rendererSet.setZoomEnabled(false);
 		rendererSet.setClickEnabled(true);
 		rendererSet.setExternalZoomEnabled(false);
+		rendererSet.setInScroll(true);
 		
 		structurallyDeficientNHSDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
 	}
