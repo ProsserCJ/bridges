@@ -2,9 +2,11 @@ package com.gccpod1.bentleybridges;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import org.achartengine.GraphicalView;
 import android.content.Context;
+import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,7 +25,7 @@ public class GraphAdapter extends BaseAdapter {
         graphFactory = new GraphFactory(context); 
         graphs = new ArrayList<GraphicalView>();
         refresh();
-    }
+    }    
 
     public View getView(int position, View convertView, ViewGroup parent) {    	
     	GraphicalView graphView = graphs.get(position);      	 

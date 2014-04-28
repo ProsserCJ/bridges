@@ -39,7 +39,6 @@ public class DashboardActivity extends Activity {
 		
 		// Show the Up button in the action bar.		
 		//setupActionBar();
-
 		
 		setUpTabs();
 							
