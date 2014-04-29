@@ -1,13 +1,16 @@
 package com.gccpod1.bentleybridges;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.List;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -21,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -70,9 +72,30 @@ public class DashboardActivity extends Activity {
 		gridView.setVerticalSpacing(25);
 	}
 	
+	private String getWidgetConfig() {
+		
+		String temp = "";
+		  FileInputStream fin;
+			try {
+				fin = openFileInput("widgetConfig.dat");
+				int c;
+				while( (c = fin.read()) != -1){
+				   temp = temp + Character.toString((char)c);
+				}
+				//string temp contains all the data of the file.
+				fin.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return temp;
+	}
+	
 	 private void displayManagerContent() {
 		 
-		  //Array list of countries
+		  //Array list of widgets
 		  ArrayList<WidgetItem> widgetItemList = new ArrayList<WidgetItem>();
 		  widgetItemList.add(new WidgetItem("1", "NBI 59 Superstructure Condition Ratings", false));
 		  widgetItemList.add(new WidgetItem("2", "NBI 60 Substructure Condition Ratings", false));
@@ -88,6 +111,23 @@ public class DashboardActivity extends Activity {
 		  widgetItemList.add(new WidgetItem("12", "Bridge Status", false));
 		  widgetItemList.add(new WidgetItem("13", "Bridge Condition", false));
 		  
+		  String temp = getWidgetConfig();
+
+		  
+		  // remove erroneous "" entries from array 
+		  String[] widgetIds = temp.split(" ");
+		  final String[] EMPTY_STRING_ARRAY = new String[0];
+		  List<String> list = new ArrayList<String>(Arrays.asList(widgetIds));
+		  list.removeAll(Arrays.asList(""));
+		  widgetIds = list.toArray(EMPTY_STRING_ARRAY);
+			
+		  for (int i = 0; i < widgetIds.length; i++)
+			Log.v("widget", widgetIds[i]);
+			
+		  for (int i = 0; i < widgetIds.length; i++)
+			widgetItemList.get(Integer.parseInt(widgetIds[i])).setSelected(true);
+			
+		  
 		  ListView listView = (ListView) findViewById(R.id.listView1);
 		  dataAdapter = new CheckboxListAdapter(this, R.layout.widget_item_info, widgetItemList);
 		  listView.setAdapter(dataAdapter);
@@ -96,8 +136,9 @@ public class DashboardActivity extends Activity {
 			  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				  // When clicked, show a toast with the TextView text
 				  WidgetItem item = (WidgetItem) parent.getItemAtPosition(position);
-				  Toast.makeText(getApplicationContext(), "Clicked on Row: " + item.getContent() + ", Code: " + item.getCode(), 
-						  Toast.LENGTH_LONG).show();}
+				  //Toast.makeText(getApplicationContext(), "Clicked on Row: " + item.getContent() + ", Code: " + item.getCode(), 
+				//		  Toast.LENGTH_SHORT).show();
+				  }
 		  });
 		  
 		  listView.setVerticalScrollBarEnabled(true);
@@ -124,6 +165,8 @@ public class DashboardActivity extends Activity {
 			ViewHolder holder = null;
 			Log.v("ConvertView", String.valueOf(position));
 
+			final String strpos = String.valueOf(position);
+			
 			if (convertView == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = vi.inflate(R.layout.widget_item_info, null);
@@ -137,10 +180,14 @@ public class DashboardActivity extends Activity {
 					public void onClick(View v) {
 						CheckBox cb = (CheckBox) v;
 						WidgetItem item = (WidgetItem) cb.getTag();
-						Toast.makeText(getApplicationContext(),
-								"Clicked on Checkbox: " + cb.getText() + " is "
-										+ cb.isChecked(), Toast.LENGTH_LONG).show();
+						//Toast.makeText(getApplicationContext(),
+						//		"Clicked on Checkbox: " + cb.getText() + " is "
+						//				+ cb.isChecked(), Toast.LENGTH_SHORT).show();
 						item.setSelected(cb.isChecked());
+						if (cb.isChecked())
+							saveCheckedItem(strpos);
+						else
+							saveUncheckedItem(strpos);
 					}
 				});
 			} else {
@@ -158,6 +205,54 @@ public class DashboardActivity extends Activity {
 
 		}
 
+	}
+	
+	public void saveCheckedItem(String str)
+	{
+		String filename = "widgetConfig.dat";
+		
+		try {			
+			FileOutputStream fileOutput = openFileOutput(filename, MODE_APPEND);
+			fileOutput.write((" " + str).getBytes());
+			fileOutput.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+			
+	}
+	
+	public void saveUncheckedItem(String str)
+	{
+		String filename = "widgetConfig.dat";
+		
+			String temp = getWidgetConfig();
+			Log.v("temp before", temp);
+			
+			Log.v("substring", "index of " + str + " = " + temp.indexOf(str));
+			if (temp.indexOf(str) != -1)
+				temp = temp.substring(0, temp.indexOf(str)) + temp.substring(temp.indexOf(str) + str.length(), temp.length());
+			
+			Log.v("temp after", temp);
+			
+			FileOutputStream fileOutput;
+			
+			try {
+				fileOutput = openFileOutput("widgetConfig.dat", MODE_WORLD_READABLE);
+				fileOutput.write((temp).getBytes());
+				fileOutput.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 	}
 	 
 	 
@@ -206,23 +301,6 @@ public class DashboardActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void addTestWidget(View view)
-	{
-		ViewGroup layout = (ViewGroup) findViewById(R.id.Manager);
-
-		LinearLayout ll = new LinearLayout(this);
-		ll.setBackgroundColor(Color.rgb(250,250,250));
-		LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		llParams.setMargins(5, 10, 5, 10); // left top right bottom
-		ll.setLayoutParams(llParams);		
-		
-		TextView tv = new TextView(this);
-		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		tv.setText("Hey this is a test!\n\nT E S T W I D G E T " + numTestWidgets + "\n\n");
-
-		ll.addView(tv);
-		layout.addView(ll);		
-	}
 	
 	public void addGraph(View graph)
 	{	
