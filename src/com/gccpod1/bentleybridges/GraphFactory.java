@@ -8,6 +8,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
@@ -16,21 +17,28 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import android.R.drawable;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.PopupWindow;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class GraphFactory {
 	public final int TITLE_SIZE = 18;
 	public Context context;
 	private DatabaseHelper DBHelper;
-    
     //Data for each chart
     private ArrayList<ArrayList<String>> 	bridgeStatus, 
     										nbi58DeckConditionRatings, 
@@ -203,6 +211,27 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		nbi58DeckConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		
+		nbi58DeckConditionRatingsView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = nbi58DeckConditionRatingsView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {
+					int x = (int)seriesSelection.getXValue();	
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getNBI58DeckConditionRatingsDrilldown(x)));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(nbi58DeckConditionRatingsView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
 	}
 	
 	public void calc_nbi59SuperstructureConditionRatings()
@@ -265,6 +294,27 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		nbi59SuperstructureConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		
+		nbi59SuperstructureConditionRatingsView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = nbi59SuperstructureConditionRatingsView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {
+					int x = (int)seriesSelection.getXValue();	
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getNBI59SuperstructureConditionRatingsDrilldown(x)));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(nbi59SuperstructureConditionRatingsView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
 	}
 	
 	public void calc_nbi60SubstructureConditionRatings()
@@ -327,6 +377,28 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		nbi60SubstructureConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		
+		nbi60SubstructureConditionRatingsView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = nbi60SubstructureConditionRatingsView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {
+					int x = (int)seriesSelection.getXValue();	
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getNBI60SubstructureConditionRatingsDrilldown(x)));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(nbi60SubstructureConditionRatingsView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
+		
 	}
 	
 	public void calc_nbi62CulvertConditionRatings()
@@ -389,6 +461,27 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		nbi62CulvertConditionRatingsView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		
+		nbi62CulvertConditionRatingsView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = nbi62CulvertConditionRatingsView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {
+					int x = (int)seriesSelection.getXValue();	
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getNBI62CulvertConditionRatingsDrilldown(x)));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(nbi62CulvertConditionRatingsView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
 	}
 
 	public void calc_postedBridges()
@@ -397,7 +490,7 @@ public class GraphFactory {
 		double max = 0;
 		
 		//Configure dataset and renderer
-		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+		final XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		XYMultipleSeriesRenderer rendererSet = new XYMultipleSeriesRenderer();		
 		for (int i=1; i<postedBridges.size(); i++)
 		{			
@@ -452,13 +545,36 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		postedBridgesView = ChartFactory.getBarChartView(context, dataset, rendererSet, Type.STACKED);
+		
+		postedBridgesView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = postedBridgesView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();
+					String temp = dataset.getSeriesAt(index).getTitle();
+					
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getPostedBridgesDrilldown(dataset.getSeriesAt(index).getTitle())));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(nbi62CulvertConditionRatingsView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
 	}	
 
 	public void calc_bridgeStatus()
 	{		
 		//Configure dataset and renderer
-		CategorySeries dataset = new CategorySeries("Bridge Status");
-		DefaultRenderer rendererSet = new DefaultRenderer();	
+		final CategorySeries dataset = new CategorySeries("Bridge Status");
+		final DefaultRenderer rendererSet = new DefaultRenderer();	
 				
 		for (int i=1; i<postedBridges.size(); i++)
 		{
@@ -512,12 +628,38 @@ public class GraphFactory {
 	
 		
 		bridgeStatusView = ChartFactory.getPieChartView(context, dataset, rendererSet);
+		
+		
+		bridgeStatusView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = bridgeStatusView.getCurrentSeriesAndPoint();		
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();
+
+					//Use to highlight certain slice					
+					//rendererSet.getSeriesRendererAt(index).setHighlighted(true);	
+				
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getBridgeStatusDrilldown(index)));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);		              
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(bridgeStatusView,Gravity.CENTER, 0,0);
+								
+		          }
+			}
+		});
 	}
 	
 	public void calc_bridgeCondition()
 	{		
 		//Configure dataset and renderer
-		CategorySeries dataset = new CategorySeries("Bridge Condition");
+		final CategorySeries dataset = new CategorySeries("Bridge Condition");
 		DefaultRenderer rendererSet = new DefaultRenderer();	
 				
 		for (int i=1; i<bridgeCondition.size(); i++)
@@ -572,12 +714,37 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		bridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
+		
+		bridgeConditionView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = bridgeConditionView.getCurrentSeriesAndPoint();		
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();
+
+					//Use to highlight certain slice					
+					//rendererSet.getSeriesRendererAt(index).setHighlighted(true);	
+					
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getBridgeConditionDrilldown(dataset.getCategory(index))));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);		              
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(bridgeStatusView,Gravity.CENTER, 0,0);
+								
+		          }
+			}
+		});
 	}
 	
 	public void calc_nhsBridgeCondition()
 	{		
 		//Configure dataset and renderer
-		CategorySeries dataset = new CategorySeries("NHS Bridge Condition");
+		final CategorySeries dataset = new CategorySeries("NHS Bridge Condition");
 		DefaultRenderer rendererSet = new DefaultRenderer();	
 				
 		for (int i=1; i<nhsBridgeCondition.size(); i++)
@@ -632,12 +799,37 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		nhsBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
+		
+		nhsBridgeConditionView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = nhsBridgeConditionView.getCurrentSeriesAndPoint();		
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();
+
+					//Use to highlight certain slice					
+					//rendererSet.getSeriesRendererAt(index).setHighlighted(true);	
+					
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getNHSBridgeConditionDrilldown(dataset.getCategory(index))));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);		              
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(bridgeStatusView,Gravity.CENTER, 0,0);
+								
+		          }
+			}
+		});
 	}
 	
 	public void calc_deckAreaBridgeCondition()
 	{		
 		//Configure dataset and renderer
-		CategorySeries dataset = new CategorySeries("Deck Area Bridge Condition");
+		final CategorySeries dataset = new CategorySeries("Deck Area Bridge Condition");
 		DefaultRenderer rendererSet = new DefaultRenderer();	
 				
 		for (int i=1; i<deckAreaBridgeCondition.size(); i++)
@@ -692,12 +884,37 @@ public class GraphFactory {
 
 		
 		deckAreaBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
+		
+		deckAreaBridgeConditionView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = deckAreaBridgeConditionView.getCurrentSeriesAndPoint();		
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();
+
+					//Use to highlight certain slice					
+					//rendererSet.getSeriesRendererAt(index).setHighlighted(true);	
+				
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getDeckAreaBridgeConditionDrilldown(dataset.getCategory(index))));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);		              
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(bridgeStatusView,Gravity.CENTER, 0,0);
+								
+		          }
+			}
+		});
 	}
 	
 	public void calc_deckAreaNHSBridgeCondition()
 	{		
 		//Configure dataset and renderer
-		CategorySeries dataset = new CategorySeries("Deck Area NHS Bridge Condition");
+		final CategorySeries dataset = new CategorySeries("Deck Area NHS Bridge Condition");
 		DefaultRenderer rendererSet = new DefaultRenderer();	
 				
 		for (int i=1; i<deckAreaNHSBridgeCondition.size(); i++)
@@ -751,12 +968,36 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		deckAreaNHSBridgeConditionView = ChartFactory.getPieChartView(context, dataset, rendererSet);
+		
+		deckAreaNHSBridgeConditionView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = deckAreaNHSBridgeConditionView.getCurrentSeriesAndPoint();		
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();
+
+					//Use to highlight certain slice					
+					//rendererSet.getSeriesRendererAt(index).setHighlighted(true);						
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getDeckAreaNHSBridgeConditionDrilldown(dataset.getCategory(index))));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);		              
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(bridgeStatusView,Gravity.CENTER, 0,0);
+								
+		          }
+			}
+		});
 	}
 	
 	public void calc_bridgeSufficiencyRatingDeckArea()
 	{		
 		//Configure dataset and renderer
-		CategorySeries dataset = new CategorySeries("Bridge Sufficiency Rating Deck Area");
+		final CategorySeries dataset = new CategorySeries("Bridge Sufficiency Rating Deck Area");
 		DefaultRenderer rendererSet = new DefaultRenderer();
 		
 		double[] categories = new double[10];		
@@ -852,6 +1093,28 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		bridgeSufficiencyRatingDeckAreaView = ChartFactory.getPieChartView(context, dataset, rendererSet);
+		
+		bridgeSufficiencyRatingDeckAreaView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = bridgeSufficiencyRatingDeckAreaView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {
+					int index = seriesSelection.getPointIndex();				
+					
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getBridgeSufficiencyRatingDeckAreaDrilldown(index*10)));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(bridgeSufficiencyRatingDeckAreaView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
 	}
 
 	public void calc_structurallyDeficientDeckArea()
@@ -894,6 +1157,27 @@ public class GraphFactory {
 				
 		structurallyDeficientDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
 		
+		structurallyDeficientDeckAreaView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = structurallyDeficientDeckAreaView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {							
+					
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getStructurallyDeficientDeckAreaDrilldown()));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(structurallyDeficientDeckAreaView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});		
+		
 	}
 	
 	public void calc_structurallyDeficientNHSDeckArea()
@@ -935,6 +1219,27 @@ public class GraphFactory {
 		rendererSet.setInScroll(true);
 		
 		structurallyDeficientNHSDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
+		
+		structurallyDeficientNHSDeckAreaView.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				SeriesSelection seriesSelection = structurallyDeficientNHSDeckAreaView.getCurrentSeriesAndPoint();
+				if (seriesSelection != null) {							
+					
+					GridView gv = new GridView(context);
+					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getStructurallyDeficientNHSDeckAreaDrilldown()));
+					gv.setBackgroundColor(Color.WHITE);
+					gv.setColumnWidth(100);
+					gv.setNumColumns(GridView.AUTO_FIT);					
+				
+					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+					window.setOutsideTouchable(true);
+					window.setTouchable(true);	
+					window.setBackgroundDrawable(new BitmapDrawable());
+					window.showAtLocation(structurallyDeficientNHSDeckAreaView,Gravity.CENTER, 0,0);
+				
+		          }
+			}
+		});
 	}
 
 }

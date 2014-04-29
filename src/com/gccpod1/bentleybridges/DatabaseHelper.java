@@ -57,9 +57,10 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 	public Cursor getStructurallyDeficientDeckAreaDrilldown()					{return query(STRUCTURALLY_DEFICIENT_DECK_AREA_DRILLDOWN, null);}
 	public Cursor getStructurallyDeficientNHSDeckAreaDrilldown()				{return query(STRUCTURALLY_DEFICIENT_NHS_DECK_AREA_DRILLDOWN, null);}
 	
-	public Cursor getBridgeSufficiencyRatingDeckAreaDrilldown(int high) 	
+	public Cursor getBridgeSufficiencyRatingDeckAreaDrilldown(int low) 	
 	{
-		int low = high - 9;		
+		int high = low + 10;
+		if (low != 0) low++;
 		return query(BRIDGE_SUFFICIENCY_RATING_DECK_AREA_DRILLDOWN, new String[] {Integer.toString(low), Integer.toString(high)});
 	}
 	
@@ -167,7 +168,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 	//varying only in the final where clause
 	
 	private final String DRILLDOWN_BASE =
-			"select aggregated.as_id,"
+			"select aggregated.as_id, "
 		+	"aggregated.nbi_058 deck, "
 		+	"aggregated.nbi_059 super, "
 		+	"aggregated.nbi_060 sub, "
@@ -196,7 +197,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 		DRILLDOWN_BASE + "where nbi_062 = ?) as aggregated ";
 	
 	private final String POSTED_BRIDGES_DRILLDOWN = 
-		DRILLDOWN_BASE + "where upper( nbi_041) = upper('?') ) as aggregated";	
+		DRILLDOWN_BASE + "where upper( nbi_041) = upper(substr(?,1,1))) as aggregated";	
 	
 	private final String STRUCTURALLY_DEFICIENT_DECK_AREA_DRILLDOWN =
 		DRILLDOWN_BASE + "where nbi_status = 1 ) as aggregated";		
@@ -205,18 +206,18 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 		DRILLDOWN_BASE + "where nbi_status = 1 and nbi_104 = 1 ) as aggregated";
 	
 	private final String BRIDGE_SUFFICIENCY_RATING_DECK_AREA_DRILLDOWN = 
-		DRILLDOWN_BASE + "where and nbi_bsr >= ? and nbi_bsr <= ? ) as aggregated";	
+		DRILLDOWN_BASE + "where nbi_bsr >= ? and nbi_bsr <=  ?  ) as aggregated";	
 	
 	private final String BRIDGE_CONDITION_DRILLDOWN =
-		DRILLDOWN_BASE + "where upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";	
+		DRILLDOWN_BASE + "where upper(nbi_059_060) = upper(substr( ?, 1, 1))) as aggregated";	
 			
 	private final String NHS_BRIDGE_CONDITION_DRILLDOWN =
-		DRILLDOWN_BASE + "where nbi_104 = 1 and upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";
+		DRILLDOWN_BASE + "where nbi_104 = 1 and upper(nbi_059_060) = upper(substr( ?, 1, 1))) as aggregated";
 	
 	private final String DECK_AREA_BRIDGE_CONDITION_DRILLDOWN =
-		DRILLDOWN_BASE + "where upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";
+		DRILLDOWN_BASE + "where upper(nbi_059_060) = upper(substr( ?, 1, 1))) as aggregated";
 	
 	private final String DECK_AREA_NHS_BRIDGE_CONDITION_DRILLDOWN = 
-		DRILLDOWN_BASE + "where nbi_104 = 1 and upper(nbi_059_060) = upper(substring( '?', 1, 1))) as aggregated";       
+		DRILLDOWN_BASE + "where nbi_104 = 1 and upper(nbi_059_060) = upper(substr( ?, 1, 1))) as aggregated";       
  
 }
