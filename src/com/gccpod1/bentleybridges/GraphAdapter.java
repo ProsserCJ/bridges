@@ -69,23 +69,41 @@ public class GraphAdapter extends BaseAdapter {
     {
     	graphs.clear();
     	
+    	String conf = getWidgetConfig();
+    	
+    	
     	width = 400;
     	height = 350;
     	
-    	String conf = getWidgetConfig();
-    	
-    	// clean erroneous "" entries from widgetIds 
     	String[] widgetIds = conf.split(" ");
-		final String[] EMPTY_STRING_ARRAY = new String[0];
-		List<String> list = new ArrayList<String>(Arrays.asList(widgetIds));
-		list.removeAll(Arrays.asList(""));
-		widgetIds = list.toArray(EMPTY_STRING_ARRAY);
+		  final String[] EMPTY_STRING_ARRAY = new String[0];
+		  List<String> list = new ArrayList<String>(Arrays.asList(widgetIds));
+		  list.removeAll(Arrays.asList(""));
+		  widgetIds = list.toArray(EMPTY_STRING_ARRAY);
 
-		numGraphs = widgetIds.length;
+		  numGraphs = widgetIds.length;
 		  
-		for (int i = 0; i < numGraphs; i++)
-			graphs.add(graphFactory.parse(widgetIds[i]));
+		  for (int i = 0; i < numGraphs; i++)
+			  graphs.add(graphFactory.parse(widgetIds[i]));
 		  
+    	
+        /*try {
+        	input = new Scanner(context.getAssets().open("graph_order.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			input = null;
+		}         
+		
+		
+        width = input.nextInt();
+        height = input.nextInt();
+        input.nextLine(); input.nextLine();        
+
+    	for (numGraphs = 0; input.hasNextLine(); numGraphs++){
+    		//graphs.add(graphFactory.parse(input.nextLine()));   
+    		input.nextLine();
+    	} */
+    	
     }
 
 	@Override
