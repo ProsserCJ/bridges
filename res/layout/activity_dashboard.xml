@@ -1,0 +1,60 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tabhost"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fillViewport="true" >
+
+	<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    	<TabWidget
+        android:id="@android:id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        </TabWidget>    	
+            	
+	        <FrameLayout
+	        android:id="@android:id/tabcontent"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        	<LinearLayout
+	        	android:id="@+id/Dashboard"
+	        	android:layout_width="match_parent"
+	        	android:layout_height="match_parent" 
+	            android:orientation="horizontal" >
+	            	        	 
+			 		<GridView 
+				    android:id="@+id/gridview"
+				    android:layout_width="fill_parent" 
+				    android:layout_height="fill_parent"
+				    android:columnWidth="425dp"
+				    android:numColumns="auto_fit"
+				    android:stretchMode="none"      		
+				    android:gravity="center"/>		            
+				
+				</LinearLayout>
+	        	
+	            <LinearLayout
+	            android:id="@+id/Manager"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" 
+	            android:orientation="horizontal" 
+	            android:baselineAligned="false">
+	                
+	                <ListView
+	        		    android:id="@+id/listView1"
+	        		    android:layout_width="0dip"
+	        		    android:layout_height="wrap_content"
+	        		    android:layout_weight="1" />
+	                
+	                	
+	            </LinearLayout>     
+        
+	        </FrameLayout>
+     </LinearLayout>
+</TabHost>
+    
