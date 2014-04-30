@@ -148,6 +148,22 @@ public class GraphFactory {
     	if (input.equalsIgnoreCase("Structurally Deficient NHS Deck Area"))	return structurallyDeficientNHSDeckAreaView;
     	if (input.equalsIgnoreCase("Bridge Sufficiency Rating Deck Area"))	return bridgeSufficiencyRatingDeckAreaView;
     	
+       	if (input.equals("0"))	return nbi59SuperstructureConditionRatingsView;    
+       	if (input.equals("1")) 	return nbi60SubstructureConditionRatingsView;
+       	if (input.equals("2"))	return nbi62CulvertConditionRatingsView;
+    	if (input.equals("3"))	return nhsBridgeConditionView;
+    	if (input.equals("4"))	return deckAreaBridgeConditionView;
+    	if (input.equals("5")) 	return deckAreaNHSBridgeConditionView;
+    	if (input.equals("6"))	return structurallyDeficientDeckAreaView;
+    	if (input.equals("7"))	return structurallyDeficientNHSDeckAreaView;
+    	if (input.equals("8"))	return bridgeSufficiencyRatingDeckAreaView;
+    	if (input.equals("9")) 	return nbi58DeckConditionRatingsView;
+    	if (input.equals("10")) return postedBridgesView;
+    	if (input.equals("11")) return bridgeStatusView; 
+    	if (input.equals("12")) return bridgeConditionView; 
+    	
+    	
+    	
     	return null;
     }
 	

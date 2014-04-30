@@ -92,6 +92,23 @@ public class DashboardActivity extends Activity {
 			return temp;
 	}
 	
+	private void clearWidgetConfig()
+	{
+		FileOutputStream fileOutput;
+		try {
+			fileOutput = openFileOutput("widgetConfig.dat", MODE_PRIVATE);
+			fileOutput.write(("").getBytes());
+			fileOutput.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	 private void displayManagerContent() {
 		 
 		  //Array list of widgets
@@ -187,6 +204,12 @@ public class DashboardActivity extends Activity {
 							saveCheckedItem(strpos);
 						else
 							saveUncheckedItem(strpos);
+						
+						// refresh graphs
+						//GridView gridView = (GridView) findViewById(R.id.gridview);
+						//((GraphAdapter)gridView.getAdapter()).refresh();
+						
+						Toast.makeText(getApplicationContext(), getWidgetConfig(), Toast.LENGTH_SHORT).show();
 					}
 				});
 			} else {
@@ -208,6 +231,7 @@ public class DashboardActivity extends Activity {
 	
 	public void saveCheckedItem(String str)
 	{
+		
 		String filename = "widgetConfig.dat";
 		
 		try {			
@@ -233,7 +257,7 @@ public class DashboardActivity extends Activity {
 			
 			Log.v("substring", "index of " + str + " = " + temp.indexOf(str));
 			if (temp.indexOf(str) != -1)
-				temp = temp.substring(0, temp.indexOf(str)) + temp.substring(temp.indexOf(str) + str.length(), temp.length());
+				temp = temp.substring(0, temp.indexOf(str) - 1) + temp.substring(temp.indexOf(str) + str.length(), temp.length());
 			
 			Log.v("temp after", temp);
 			
@@ -298,18 +322,6 @@ public class DashboardActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	
-	public void addGraph(View graph)
-	{	
-
-
-/*		ViewGroup.LayoutParams llParams = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-	
-		graph.addView(graph, llParams);
-		layout.addView(view);*/
-		
 	}
 
 }
