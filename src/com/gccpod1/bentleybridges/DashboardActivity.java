@@ -26,42 +26,53 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
-	int numTestWidgets = 0;
 	CheckboxListAdapter dataAdapter = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_dashboard);		
-		
-		// Show the Up button in the action bar.		
-		//setupActionBar();
-		
+		setContentView(R.layout.activity_dashboard);
+
+		// Show the Up button in the action bar.
+		// setupActionBar();
+
 		setUpTabs();
-							
-		displayDashboardContent();	
-		
+
+		displayDashboardContent();
+
 		displayManagerContent();
-	    
+
 	}
 
 	private void setUpTabs() {
 		TabHost th = (TabHost) findViewById(R.id.tabhost);
+		
 		th.setup();
 		TabSpec spec = th.newTabSpec("arbitraryTag1");
 		spec.setContent(R.id.Dashboard);
 		spec.setIndicator("Dashboard");
 		th.addTab(spec);
-		
+
 		spec = th.newTabSpec("arbitraryTag2");
 		spec.setContent(R.id.Manager);
 		spec.setIndicator("Manager");
 		th.addTab(spec);
+		
+		th.setOnTabChangedListener(new OnTabChangeListener(){
+	        public void onTabChanged(String tabId) {
+	    		GridView gv = (GridView) findViewById(R.id.gridview);
+	    		GraphAdapter ga = (GraphAdapter)gv.getAdapter();	
+	    		ga.notifyDataSetChanged();
+	    		gv.setAdapter(ga);
+	    		((GraphAdapter)gv.getAdapter()).refresh();
+	        }
+	        });
 	}
 
 	private void displayDashboardContent() {
@@ -70,29 +81,29 @@ public class DashboardActivity extends Activity {
 		gridView.setOnItemClickListener(null);
 		gridView.setVerticalSpacing(25);
 	}
-	
+
 	private String getWidgetConfig() {
-		
+
 		String temp = "";
-		  FileInputStream fin;
-			try {
-				fin = openFileInput("widgetConfig.dat");
-				int c;
-				while( (c = fin.read()) != -1){
-				   temp = temp + Character.toString((char)c);
-				}
-				//string temp contains all the data of the file.
-				fin.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+		FileInputStream fin;
+		try {
+			fin = openFileInput("widgetConfig.dat");
+			int c;
+			while ((c = fin.read()) != -1) {
+				temp = temp + Character.toString((char) c);
 			}
-			
-			return temp;
+			// string temp contains all the data of the file.
+			fin.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return temp;
 	}
-	
-	private void clearWidgetConfig()
+
+	private void clearWidgetConfig() // used for debug
 	{
 		FileOutputStream fileOutput;
 		try {
@@ -106,65 +117,69 @@ public class DashboardActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}
-	
-	 private void displayManagerContent() {
-		 
-		  //Array list of widgets
-		  ArrayList<WidgetItem> widgetItemList = new ArrayList<WidgetItem>();
-		  widgetItemList.add(new WidgetItem("1", "NBI 59 Superstructure Condition Ratings", false));
-		  widgetItemList.add(new WidgetItem("2", "NBI 60 Substructure Condition Ratings", false));
-		  widgetItemList.add(new WidgetItem("3", "NBI 62 Culvert Condition Ratings", false));
-		  widgetItemList.add(new WidgetItem("4", "NHS Bridge Condition", false));
-		  widgetItemList.add(new WidgetItem("5", "Deck Area Bridge Condition", false));
-		  widgetItemList.add(new WidgetItem("6", "Deck Area NHS Bridge Condition", false));
-		  widgetItemList.add(new WidgetItem("7", "Structurally Deficient Deck Area", false));
-		  widgetItemList.add(new WidgetItem("8", "Structurally Deficient NHS Deck Area", false));
-		  widgetItemList.add(new WidgetItem("9", "Bridge Sufficiency Rating Deck Area", false));
-		  widgetItemList.add(new WidgetItem("10","NBI 58 Deck Condition Ratings", false));
-		  widgetItemList.add(new WidgetItem("11","Posted Bridges", false));
-		  widgetItemList.add(new WidgetItem("12", "Bridge Status", false));
-		  widgetItemList.add(new WidgetItem("13", "Bridge Condition", false));
-		  
-		  String temp = getWidgetConfig();
 
-		  
-		  // remove erroneous "" entries from array 
-		  String[] widgetIds = temp.split(" ");
-		  final String[] EMPTY_STRING_ARRAY = new String[0];
-		  List<String> list = new ArrayList<String>(Arrays.asList(widgetIds));
-		  list.removeAll(Arrays.asList(""));
-		  widgetIds = list.toArray(EMPTY_STRING_ARRAY);
-			
-		  for (int i = 0; i < widgetIds.length; i++)
+	}
+
+	private void displayManagerContent() {
+
+		// Array list of widgets
+		ArrayList<WidgetItem> widgetItemList = new ArrayList<WidgetItem>();
+		widgetItemList.add(new WidgetItem("1", "NBI 59 Superstructure Condition Ratings", false));
+		widgetItemList.add(new WidgetItem("2", "NBI 60 Substructure Condition Ratings", false));
+		widgetItemList.add(new WidgetItem("3", "NBI 62 Culvert Condition Ratings", false));
+		widgetItemList.add(new WidgetItem("4", "NHS Bridge Condition", false));
+		widgetItemList.add(new WidgetItem("5", "Deck Area Bridge Condition", false));
+		widgetItemList.add(new WidgetItem("6", "Deck Area NHS Bridge Condition", false));
+		widgetItemList.add(new WidgetItem("7", "Structurally Deficient Deck Area", false));
+		widgetItemList.add(new WidgetItem("8", "Structurally Deficient NHS Deck Area", false));
+		widgetItemList.add(new WidgetItem("9", "Bridge Sufficiency Rating Deck Area", false));
+		widgetItemList.add(new WidgetItem("10", "NBI 58 Deck Condition Ratings", false));
+		widgetItemList.add(new WidgetItem("11", "Posted Bridges", false));
+		widgetItemList.add(new WidgetItem("12", "Bridge Status", false));
+		widgetItemList.add(new WidgetItem("13", "Bridge Condition", false));
+
+		String temp = getWidgetConfig();
+
+		// remove erroneous "" entries from array
+		String[] widgetIds = temp.split(" ");
+		final String[] EMPTY_STRING_ARRAY = new String[0];
+		List<String> list = new ArrayList<String>(Arrays.asList(widgetIds));
+		list.removeAll(Arrays.asList(""));
+		widgetIds = list.toArray(EMPTY_STRING_ARRAY);
+
+		for (int i = 0; i < widgetIds.length; i++)
 			Log.v("widget", widgetIds[i]);
-			
-		  for (int i = 0; i < widgetIds.length; i++)
-			widgetItemList.get(Integer.parseInt(widgetIds[i])).setSelected(true);
-			
-		  
-		  ListView listView = (ListView) findViewById(R.id.listView1);
-		  dataAdapter = new CheckboxListAdapter(this, R.layout.widget_item_info, widgetItemList);
-		  listView.setAdapter(dataAdapter);
-		 
-		  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				  // When clicked, show a toast with the TextView text
-				  WidgetItem item = (WidgetItem) parent.getItemAtPosition(position);
-				  //Toast.makeText(getApplicationContext(), "Clicked on Row: " + item.getContent() + ", Code: " + item.getCode(), 
-				//		  Toast.LENGTH_SHORT).show();
-				  }
-		  });
-		  
-		  listView.setVerticalScrollBarEnabled(true);
-	 }
-	
+
+		for (int i = 0; i < widgetIds.length; i++)
+			widgetItemList.get(Integer.parseInt(widgetIds[i]))
+					.setSelected(true);
+
+		ListView listView = (ListView) findViewById(R.id.listView1);
+		dataAdapter = new CheckboxListAdapter(this, R.layout.widget_item_info,
+				widgetItemList);
+		listView.setAdapter(dataAdapter);
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// When clicked, show a toast with the TextView text
+				WidgetItem item = (WidgetItem) parent
+						.getItemAtPosition(position);
+				// Toast.makeText(getApplicationContext(), "Clicked on Row: " +
+				// item.getContent() + ", Code: " + item.getCode(),
+				// Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		listView.setVerticalScrollBarEnabled(true);
+	}
+
 	private class CheckboxListAdapter extends ArrayAdapter<WidgetItem> {
 
 		private ArrayList<WidgetItem> widgetItemList;
 
-		public CheckboxListAdapter(Context context, int textViewResourceId, ArrayList<WidgetItem> widgList) {
+		public CheckboxListAdapter(Context context, int textViewResourceId,
+				ArrayList<WidgetItem> widgList) {
 			super(context, textViewResourceId, widgList);
 			this.widgetItemList = new ArrayList<WidgetItem>();
 			this.widgetItemList.addAll(widgList);
@@ -182,7 +197,7 @@ public class DashboardActivity extends Activity {
 			Log.v("ConvertView", String.valueOf(position));
 
 			final String strpos = String.valueOf(position);
-			
+
 			if (convertView == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = vi.inflate(R.layout.widget_item_info, null);
@@ -196,20 +211,24 @@ public class DashboardActivity extends Activity {
 					public void onClick(View v) {
 						CheckBox cb = (CheckBox) v;
 						WidgetItem item = (WidgetItem) cb.getTag();
-						//Toast.makeText(getApplicationContext(),
-						//		"Clicked on Checkbox: " + cb.getText() + " is "
-						//				+ cb.isChecked(), Toast.LENGTH_SHORT).show();
+						// Toast.makeText(getApplicationContext(),
+						// "Clicked on Checkbox: " + cb.getText() + " is "
+						// + cb.isChecked(), Toast.LENGTH_SHORT).show();
 						item.setSelected(cb.isChecked());
 						if (cb.isChecked())
 							saveCheckedItem(strpos);
 						else
 							saveUncheckedItem(strpos);
-						
+
 						// refresh graphs
+						// GridView gridView = (GridView)
+						// findViewById(R.id.gridview);
+						// ((GraphAdapter)gridView.getAdapter()).refresh();
+
+						//Toast.makeText(getApplicationContext(), getWidgetConfig(), Toast.LENGTH_SHORT).show();
+						
 						//GridView gridView = (GridView) findViewById(R.id.gridview);
 						//((GraphAdapter)gridView.getAdapter()).refresh();
-						
-						Toast.makeText(getApplicationContext(), getWidgetConfig(), Toast.LENGTH_SHORT).show();
 					}
 				});
 			} else {
@@ -217,7 +236,8 @@ public class DashboardActivity extends Activity {
 			}
 
 			WidgetItem widgetItem = widgetItemList.get(position);
-			//holder.code.setText(" (" + widgetItem.getCode() + ")"); //UNCOMMENT this to view the widget codes
+			// holder.code.setText(" (" + widgetItem.getCode() + ")");
+			// //UNCOMMENT this to view the widget codes
 			holder.code.setText("");
 			holder.name.setText("    " + widgetItem.getContent());
 			holder.name.setChecked(widgetItem.isSelected());
@@ -228,13 +248,12 @@ public class DashboardActivity extends Activity {
 		}
 
 	}
-	
-	public void saveCheckedItem(String str)
-	{
-		
+
+	public void saveCheckedItem(String str) {
+
 		String filename = "widgetConfig.dat";
-		
-		try {			
+
+		try {
 			FileOutputStream fileOutput = openFileOutput(filename, MODE_APPEND);
 			fileOutput.write((" " + str).getBytes());
 			fileOutput.close();
@@ -245,45 +264,40 @@ public class DashboardActivity extends Activity {
 			e.printStackTrace();
 		}
 
-			
 	}
-	
-	public void saveUncheckedItem(String str)
-	{
-		String filename = "widgetConfig.dat";
-		
-			String temp = getWidgetConfig();
-			Log.v("temp before", temp);
-			
-			Log.v("substring", "index of " + str + " = " + temp.indexOf(str));
-			if (temp.indexOf(str) != -1)
-				temp = temp.substring(0, temp.indexOf(str) - 1) + temp.substring(temp.indexOf(str) + str.length(), temp.length());
-			
-			Log.v("temp after", temp);
-			
-			FileOutputStream fileOutput;
-			
-			try {
-				fileOutput = openFileOutput("widgetConfig.dat", MODE_WORLD_READABLE);
-				fileOutput.write((temp).getBytes());
-				fileOutput.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
+
+	public void saveUncheckedItem(String str) {
+
+		String temp = getWidgetConfig();
+		Log.v("temp before", temp);
+
+		Log.v("substring", "index of " + str + " = " + temp.indexOf(str));
+		if (temp.indexOf(str) != -1)
+			temp = temp.substring(0, temp.indexOf(str) - 1)
+					+ temp.substring(temp.indexOf(str) + str.length(),
+							temp.length());
+
+		Log.v("temp after", temp);
+
+		FileOutputStream fileOutput;
+
+		try {
+			fileOutput = openFileOutput("widgetConfig.dat", MODE_PRIVATE);
+			fileOutput.write((temp).getBytes());
+			fileOutput.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
-	 
-	 
-	protected void onResume()
-	{
-		super.onResume();	
+
+	protected void onResume() {
+		super.onResume();
 	}
-	
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
@@ -293,8 +307,7 @@ public class DashboardActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-	}	
-
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -306,9 +319,9 @@ public class DashboardActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		 //case R.id.action_addTestWidget:
-	           // openSearch();
-	     //       return true;
+		// case R.id.action_addTestWidget:
+		// openSearch();
+		// return true;
 
 		case android.R.id.home:
 			// This ID represents the Home or Up button. In the case of this
