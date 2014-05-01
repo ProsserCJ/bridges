@@ -566,8 +566,7 @@ public class GraphFactory {
 			public void onClick(View v) {
 				SeriesSelection seriesSelection = postedBridgesView.getCurrentSeriesAndPoint();
 				if (seriesSelection != null) {
-					int index = seriesSelection.getPointIndex();
-					String temp = dataset.getSeriesAt(index).getTitle();
+					int index = seriesSelection.getSeriesIndex();				
 					
 					GridView gv = new GridView(context);
 					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getPostedBridgesDrilldown(dataset.getSeriesAt(index).getTitle())));
@@ -1175,22 +1174,19 @@ public class GraphFactory {
 		
 		structurallyDeficientDeckAreaView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				SeriesSelection seriesSelection = structurallyDeficientDeckAreaView.getCurrentSeriesAndPoint();
-				if (seriesSelection != null) {							
+						
 					
-					GridView gv = new GridView(context);
-					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getStructurallyDeficientDeckAreaDrilldown()));
-					gv.setBackgroundColor(Color.WHITE);
-					gv.setColumnWidth(100);
-					gv.setNumColumns(GridView.AUTO_FIT);					
-				
-					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
-					window.setOutsideTouchable(true);
-					window.setTouchable(true);	
-					window.setBackgroundDrawable(new BitmapDrawable());
-					window.showAtLocation(structurallyDeficientDeckAreaView,Gravity.CENTER, 0,0);
-				
-		          }
+				GridView gv = new GridView(context);
+				gv.setAdapter(new MyCursorAdapter(context, DBHelper.getStructurallyDeficientDeckAreaDrilldown()));
+				gv.setBackgroundColor(Color.WHITE);
+				gv.setColumnWidth(100);
+				gv.setNumColumns(GridView.AUTO_FIT);					
+			
+				final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+				window.setOutsideTouchable(true);
+				window.setTouchable(true);	
+				window.setBackgroundDrawable(new BitmapDrawable());
+				window.showAtLocation(structurallyDeficientDeckAreaView,Gravity.CENTER, 0,0);
 			}
 		});		
 		
@@ -1237,23 +1233,19 @@ public class GraphFactory {
 		structurallyDeficientNHSDeckAreaView = ChartFactory.getDialChartView(context, dataset, rendererSet);
 		
 		structurallyDeficientNHSDeckAreaView.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				SeriesSelection seriesSelection = structurallyDeficientNHSDeckAreaView.getCurrentSeriesAndPoint();
-				if (seriesSelection != null) {							
+			public void onClick(View v) {					
 					
-					GridView gv = new GridView(context);
-					gv.setAdapter(new MyCursorAdapter(context, DBHelper.getStructurallyDeficientNHSDeckAreaDrilldown()));
-					gv.setBackgroundColor(Color.WHITE);
-					gv.setColumnWidth(100);
-					gv.setNumColumns(GridView.AUTO_FIT);					
-				
-					final PopupWindow window = new PopupWindow(gv, 800, 400, true);
-					window.setOutsideTouchable(true);
-					window.setTouchable(true);	
-					window.setBackgroundDrawable(new BitmapDrawable());
-					window.showAtLocation(structurallyDeficientNHSDeckAreaView,Gravity.CENTER, 0,0);
-				
-		          }
+				GridView gv = new GridView(context);
+				gv.setAdapter(new MyCursorAdapter(context, DBHelper.getStructurallyDeficientNHSDeckAreaDrilldown()));
+				gv.setBackgroundColor(Color.WHITE);
+				gv.setColumnWidth(100);
+				gv.setNumColumns(GridView.AUTO_FIT);					
+			
+				final PopupWindow window = new PopupWindow(gv, 800, 400, true);
+				window.setOutsideTouchable(true);
+				window.setTouchable(true);	
+				window.setBackgroundDrawable(new BitmapDrawable());
+				window.showAtLocation(structurallyDeficientNHSDeckAreaView,Gravity.CENTER, 0,0);
 			}
 		});
 	}
