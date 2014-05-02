@@ -45,14 +45,46 @@ public class MyCursorAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 			TextView tv = new TextView(context);
-			int i = 0;
-			while (position >= data.get(0).size())
+			switch(position)
 			{
-				position -= data.get(0).size();
-				i++;
+			case 0: tv.setText("Asset Code\n"); break;
+			case 1: tv.setText("58: Deck\n"); break;
+			case 2: tv.setText("59: Super\n"); break;
+			case 3: tv.setText("60: Sub\n"); break;
+			case 4: tv.setText("62: Culvert\n"); break;
+			case 5: tv.setText("Posting\nStatus"); break;
+			case 6: tv.setText("Sufficiency Rating"); break;
+			case 7: tv.setText("Status\n"); break;			 
+			
+			default:
+				int i = 0;
+				while (position >= data.get(0).size())
+				{
+					position -= data.get(0).size();
+					i++;
+				}
+				int j = position;
+				
+				//Map integers to bridge status
+				if ((position%7) == 0)
+				{
+					try{
+						switch(Integer.parseInt(data.get(i).get(j)))
+						{
+						case 0: tv.setText("OK"); break;
+						case 1: tv.setText("SD"); break;
+						case 2: tv.setText("FO"); break;
+						default: tv.setText(data.get(i).get(j));
+						}
+					}
+					catch(Exception e){tv.setText(data.get(i).get(j));}
+				}				
+				else tv.setText(data.get(i).get(j));	
+				break;
 			}
-			int j = position;
-			tv.setText(data.get(i).get(j));			
+			
+
+			
 			return tv;	
 	}
     
