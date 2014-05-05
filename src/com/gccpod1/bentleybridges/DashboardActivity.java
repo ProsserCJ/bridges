@@ -158,6 +158,7 @@ public class DashboardActivity extends Activity {
 		dataAdapter = new CheckboxListAdapter(this, R.layout.widget_item_info,
 				widgetItemList);
 		listView.setAdapter(dataAdapter);
+		listView.setEnabled(false);
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
