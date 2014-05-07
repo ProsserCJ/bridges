@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
@@ -29,7 +28,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DashboardActivity extends Activity {
 	CheckboxListAdapter dataAdapter = null;
@@ -38,10 +36,7 @@ public class DashboardActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dashboard);
-
-		// Show the Up button in the action bar.
-		// setupActionBar();
-
+		
 		setUpTabs();
 
 		displayDashboardContent();
@@ -83,7 +78,6 @@ public class DashboardActivity extends Activity {
 	}
 
 	private String getWidgetConfig() {
-
 		String temp = "";
 		FileInputStream fin;
 		try {
@@ -103,7 +97,8 @@ public class DashboardActivity extends Activity {
 		return temp;
 	}
 
-	private void clearWidgetConfig() // used for debug
+	@SuppressWarnings("unused") //Unchecks all boxes. Only used for debugging.
+	private void clearWidgetConfig()
 	{
 		FileOutputStream fileOutput;
 		try {
@@ -111,10 +106,8 @@ public class DashboardActivity extends Activity {
 			fileOutput.write(("").getBytes());
 			fileOutput.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -138,41 +131,28 @@ public class DashboardActivity extends Activity {
 		widgetItemList.add(new WidgetItem("12", "Bridge Status", false));
 		widgetItemList.add(new WidgetItem("13", "Bridge Condition", false));
 
-		String temp = getWidgetConfig();
+		String configuration = getWidgetConfig();
+		String[] widgetIds = removeEmptyStrings(configuration);
 
-		// remove erroneous "" entries from array
+		for (int i = 0; i < widgetIds.length; i++)
+			Log.v("widget", widgetIds[i]);
+		for (int i = 0; i < widgetIds.length; i++)
+			widgetItemList.get(Integer.parseInt(widgetIds[i])).setSelected(true);
+
+		ListView listView = (ListView) findViewById(R.id.listView1);
+		dataAdapter = new CheckboxListAdapter(this, R.layout.widget_item_info, widgetItemList);
+		listView.setAdapter(dataAdapter);
+		listView.setEnabled(false);
+		listView.setVerticalScrollBarEnabled(true);
+	}
+
+	private String[] removeEmptyStrings(String temp) {
 		String[] widgetIds = temp.split(" ");
 		final String[] EMPTY_STRING_ARRAY = new String[0];
 		List<String> list = new ArrayList<String>(Arrays.asList(widgetIds));
 		list.removeAll(Arrays.asList(""));
 		widgetIds = list.toArray(EMPTY_STRING_ARRAY);
-
-		for (int i = 0; i < widgetIds.length; i++)
-			Log.v("widget", widgetIds[i]);
-
-		for (int i = 0; i < widgetIds.length; i++)
-			widgetItemList.get(Integer.parseInt(widgetIds[i]))
-					.setSelected(true);
-
-		ListView listView = (ListView) findViewById(R.id.listView1);
-		dataAdapter = new CheckboxListAdapter(this, R.layout.widget_item_info,
-				widgetItemList);
-		listView.setAdapter(dataAdapter);
-		listView.setEnabled(false);
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// When clicked, show a toast with the TextView text
-				WidgetItem item = (WidgetItem) parent
-						.getItemAtPosition(position);
-				// Toast.makeText(getApplicationContext(), "Clicked on Row: " +
-				// item.getContent() + ", Code: " + item.getCode(),
-				// Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		listView.setVerticalScrollBarEnabled(true);
+		return widgetIds;
 	}
 
 	private class CheckboxListAdapter extends ArrayAdapter<WidgetItem> {
@@ -212,24 +192,13 @@ public class DashboardActivity extends Activity {
 					public void onClick(View v) {
 						CheckBox cb = (CheckBox) v;
 						WidgetItem item = (WidgetItem) cb.getTag();
-						// Toast.makeText(getApplicationContext(),
-						// "Clicked on Checkbox: " + cb.getText() + " is "
-						// + cb.isChecked(), Toast.LENGTH_SHORT).show();
 						item.setSelected(cb.isChecked());
+						
 						if (cb.isChecked())
 							saveCheckedItem(strpos);
 						else
 							saveUncheckedItem(strpos);
 
-						// refresh graphs
-						// GridView gridView = (GridView)
-						// findViewById(R.id.gridview);
-						// ((GraphAdapter)gridView.getAdapter()).refresh();
-
-						//Toast.makeText(getApplicationContext(), getWidgetConfig(), Toast.LENGTH_SHORT).show();
-						
-						//GridView gridView = (GridView) findViewById(R.id.gridview);
-						//((GraphAdapter)gridView.getAdapter()).refresh();
 					}
 				});
 			} else {
@@ -237,8 +206,7 @@ public class DashboardActivity extends Activity {
 			}
 
 			WidgetItem widgetItem = widgetItemList.get(position);
-			// holder.code.setText(" (" + widgetItem.getCode() + ")");
-			// //UNCOMMENT this to view the widget codes
+			// holder.code.setText(" (" + widgetItem.getCode() + ")");  //UNCOMMENT this to view the widget codes
 			holder.code.setText("");
 			holder.name.setText("    " + widgetItem.getContent());
 			holder.name.setChecked(widgetItem.isSelected());
@@ -287,10 +255,8 @@ public class DashboardActivity extends Activity {
 			fileOutput.write((temp).getBytes());
 			fileOutput.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -320,10 +286,7 @@ public class DashboardActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		// case R.id.action_addTestWidget:
-		// openSearch();
-		// return true;
-
+		
 		case android.R.id.home:
 			// This ID represents the Home or Up button. In the case of this
 			// activity, the Up button is shown. Use NavUtils to allow users

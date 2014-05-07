@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
